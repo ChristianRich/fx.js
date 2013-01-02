@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+	
+	<div id="results"></div>
+
+	<p>
+		The percent class features 3 methods for calculating percentage:</p>
+		<p><strong>fx.Percent.of</strong>: Returns the decimal value of the percent in relation to the total.<br>
+		<strong>fx.Percent.from</strong>: Returns the fraction in percent of the total.<br>
+		<strong>fx.Percent.fromRange</strong>: Returns the percentage of a value in a range<strong>
+	</p>
+
+	<script>
+
+		function runTests(){
+			benchmark.assert(fx.Percent.of(75, 1500) == 1125 , 'fx.Percent.of: 75% of 1500 is <strong>1125</strong>');
+			benchmark.assert(fx.Percent.from(200, 1600) == 12.5 , 'fx.Percent.from: 200 corresponds to <strong>12.5%</strong> of 1600');
+			benchmark.assert(fx.Percent.fromRange(40, 80, 50) == 25 , 'fx.Percent.fromRange: The percentage of 50 in the range 40-80 is <strong>25</strong>');
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'), 'fx.Percent');
+		runTests();
+
+	</script>
+</body>
+</html>

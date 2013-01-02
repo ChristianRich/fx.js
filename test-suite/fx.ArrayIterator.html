@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+
+	<style>
+		.field{
+			width: 550px; 
+			height: 50px; 
+			padding: 5px;
+			background-color: #ffffff;	
+		}
+
+	</style>
+</head> 
+<body>
+
+	<div id="results"></div>
+	<p>Iterators provide a common interface for traversing a collection while encapsulating the data.<br> The ArrayIterator encapsulates an Array and provides a set of public methods for traversing the data.</p>
+	<p>Public methods:</p>
+
+	<button class="button" onclick="execute('previous', itr.previous());">previous()</button>
+	<button class="button" onclick="execute('next', itr.next());">next()</button>
+	<button class="button" onclick="execute('hasNext', itr.hasNext());">hasNext()</button>
+	<button class="button" onclick="execute('hasPrevious', itr.hasPrevious());">hasPrevious()</button>
+	<button class="button" onclick="execute('peekNext', itr.peekNext());">peekNext()</button>
+	<button class="button" onclick="execute('peekPrevious', itr.peekPrevious());">peekPrevious()</button>
+	<button class="button" onclick="itr.shuffle(); execute('shuffle');">shuffle()</button>
+	<button class="button" onclick="itr.reverse(); execute('reverse');">reverse()</button>
+	<button class="button" onclick="itr.reset(); execute('reset');">reset()</button>
+	<button class="button" onclick="execute('getSize', itr.getSize());">getSize()</button>
+	
+	<p></p>
+
+	<p>Iterator current state:</p>
+	<div id="arrayCurrentState" class="field"></div>
+	
+	<p>Result of last executed command:</p>
+	<div id="result" class="field"></div>
+
+	<p>Iterator contains:</p>
+	<div id="contains" class="field" style="height: auto;"></div>
+
+	<script>
+		var benchmark,
+			itr,
+			resultOutput = document.querySelector('#result'),
+			arrayCurrentState = document.querySelector('#arrayCurrentState');
+
+		function startTest(){
+			resultOutput.innerHTML = '';
+
+
+			var numElements = Math.round(Math.random() * 10) + 5;
+
+			var data = [];
+
+			for(var i = 0; i < numElements; i++){
+				data.push('element ' + i);
+			}
+
+			itr = new fx.ArrayIterator(data);
+
+			update();
+		}
+
+		function update(){
+			arrayCurrentState.innerHTML = itr.toString();
+			updateContents();
+		}
+
+		function updateContents(){
+			var res = '';
+
+			for(var i = 0; i < itr.data.length; i++){
+
+				if(itr.index == i){
+					res += '<strong>';
+				}
+
+				res += itr.data[i] + '<br>';
+
+				if(itr.index == i){
+					res += '</strong>';
+				}
+			}
+
+			document.querySelector('#contains').innerHTML = res;	
+		}
+
+		function execute(command, result){
+			result = result || 'void';
+			resultOutput.innerHTML = 'Command executed:<strong> ' + command + '</strong>, result: <strong>' + result + '</strong>';
+			update();
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'), 'fx.ArrayIterator');
+		startTest();
+
+	</script>
+</body>
+</html>

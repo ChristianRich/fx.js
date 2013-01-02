@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="results"></div>
+
+	<script>
+
+		function runTests(){
+			var random = fx.Math.random();
+
+			var randomRange = fx.Math.random(60, 70, false);
+			var randomRangeRounded = fx.Math.random(60, 70, true);
+
+			benchmark.assert(!isNaN(random) , 'random', random);
+			benchmark.assert(!isNaN(randomRange) && (randomRange >= 60 && randomRange <= 70) , 'random Range 60 - 70', randomRange);
+			benchmark.assert(!isNaN(randomRangeRounded) && (randomRangeRounded >= 60 && randomRangeRounded <= 70) , 'random Range 60 - 70 rounded', randomRangeRounded);
+			randomRangeExclude();
+			randomRangeExcludeRounded();
+			benchmark.assert(fx.Math.isNumber(44), 'is number');
+			benchmark.assert(!fx.Math.isNumber('hello'), 'not is number');
+			benchmark.assert(fx.Math.fallsBetween(0, 100, 6), 'number falls between range');
+			benchmark.assert(!fx.Math.fallsBetween(0, 100, 200), 'not number falls between range');
+			benchmark.assert(fx.Math.clamp(0, 100, 433) == 100, 'clamp 433 to range 0 --> 100');
+			benchmark.assert(fx.Math.clamp(50, 100, 3) == 50, 'clamp 3 to range 50 --> 100');
+
+		}
+
+		function randomRangeExclude(){
+			var randomRangeExcludeRes;
+			var randomRangeExclude = fx.Math.randomExclude(0, 100, 10, 90);
+			
+			if(randomRangeExclude >= 0 && randomRangeExclude <= 100){
+
+				if(randomRangeExclude >= 50 && randomRangeExclude <= 60){
+					randomRangeExcludeRes = false;
+				} else{
+					randomRangeExcludeRes = true;
+				}
+
+			} else{
+				randomRangeExcludeRes = false;
+			}
+
+			benchmark.assert(randomRangeExcludeRes, 'random Range 0 - 100 exclude range 10 - 90', randomRangeExclude);
+		}
+
+		function randomRangeExcludeRounded(){
+			var randomRangeExcludeRes;
+			var randomRangeExclude = fx.Math.randomExclude(0, 100, 10, 90, true);
+			
+			if(randomRangeExclude >= 0 && randomRangeExclude <= 100){
+
+				if(randomRangeExclude >= 50 && randomRangeExclude <= 60){
+					randomRangeExcludeRes = false;
+				} else{
+					randomRangeExcludeRes = true;
+				}
+
+			} else{
+				randomRangeExcludeRes = false;
+			}
+
+			benchmark.assert(randomRangeExcludeRes, 'random Range 0 - 100 exclude range 10 - 90 rounded', randomRangeExclude);
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'), 'fx.Math');
+		runTests();
+
+	</script>
+</body>
+</html>

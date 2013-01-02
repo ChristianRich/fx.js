@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="results"></div>
+	<div id="imageContainer"></div>
+
+	<script>
+		var image;
+
+		function runTests(){
+			loadComplete = function(e){
+				benchmark.assert(!!image , 'Create image');
+				benchmark.assert(image.isLoaded , 'imageLoaded');
+				benchmark.assert(!!image.getCanvas() , 'getCanvas()');
+
+				var imageData = image.getImageData(),
+					len = 0;
+
+				if(imageData && imageData.data){
+					len = imageData.data.length;
+				}
+
+				benchmark.assert(!!imageData , 'getImageData()' + imageData, 'length: ' + len);
+			}
+
+			loadError = function(e){
+				loadComplete();
+			}
+
+			image = new fx.Image(
+				'assets/821651-durant.jpg', {
+					onload : loadComplete,
+					onerror : loadError,
+					target : document.getElementById('imageContainer')
+				}
+			);
+		}
+
+		var benchmark = new Benchmark(document.getElementById('results'), 'fx.Image');
+		runTests();
+	</script>
+</body>
+</html>

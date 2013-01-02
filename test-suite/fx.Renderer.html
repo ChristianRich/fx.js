@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="results"></div>
+	<button class="button" onclick="renderer.start();">Start</button>
+	<button class="button" onclick="renderer.stop();">Stop</button>
+
+	<script>
+		var renderer;
+
+		function runTests(){
+			renderer = new fx.Renderer(render);
+		}
+
+		function render(){
+			renderer.update();
+			console.log(Math.random());
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'), 'fx.Renderer');
+		runTests();
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="header"></div>
+	<p>A line represents two interconnected points.</p>
+	<div id="results"></div>
+
+	<script>
+		var benchmark,
+			canvas,
+			ctx;
+
+		canvas = document.createElement('canvas');
+		canvas.width = 200;
+		canvas.height = 200;
+
+		try{
+			ctx = canvas.getContext('2d');
+			document.body.appendChild(canvas);
+		} catch(e){
+			console.log('Wow, your browser is really out dated. Get a new one.');
+		}
+
+		function runTests(name){
+			ctx.strokeStyle = '#ff0000';
+			ctx.lineWidth = 2;
+
+			var red = new fx.Line(new fx.Point(0, 0), new fx.Point(200, 200));
+		
+			red.draw(ctx);
+
+			ctx.strokeStyle = '#00ff00';
+
+			var green = new fx.Line(new fx.Point(0, 200), new fx.Point(200, 0));
+			green.draw(ctx);
+
+			ctx.strokeStyle = '#0000ff';
+
+			var blue = new fx.Line(new fx.Point(70, 150), new fx.Point(140, 195));
+			blue.draw(ctx);
+
+			benchmark.assert(!!fx.Line.IsLine(red) , 'new line() red', red.toString());
+			benchmark.assert(!!fx.Line.IsLine(green) , 'new line() green', green.toString());
+			benchmark.assert(!!red.intersectsLine(green) , 'intersectsLine(): red intersects green', 'intersecting point is : ' + red.intersectsLine(green).toString());
+			benchmark.assert(!blue.intersectsLine(red) , 'intersectsLine(): blue does <strong>not</strong> intersect green');
+			benchmark.assert(!blue.intersectsLine(green) , 'intersectsLine(): blue does <strong>not</strong> intersect red');
+			benchmark.assert(!blue.isParallel(green) , 'isParallel(): blue and green are <strong>not</strong> parallel');
+			benchmark.assert(!blue.isCoincicent(red) , 'isCoincicent(): blue and red are <strong>not</strong> coincicent');
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'));
+		benchmark.setHeading(document.getElementById('header'), 'fx.Line');
+
+		if(canvas && ctx){
+			runTests();
+		} else{
+			benchmark.assert( !!ctx , 'Create Canvas Element');	
+		}
+
+	</script>
+</body>
+</html>

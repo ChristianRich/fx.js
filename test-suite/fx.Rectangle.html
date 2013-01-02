@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="header"></div>
+	<p>A Rectangle represents a rectangle in a 2d space.</p>
+	<div id="results"></div>
+
+	<script>
+
+		var canvas,
+			ctx,
+			benchmark;
+
+		canvas = document.createElement('canvas');
+		canvas.width = 100;
+		canvas.height = 100;
+
+		try{
+			ctx = canvas.getContext('2d');
+			document.body.appendChild(canvas);
+		} catch(e){
+			//
+		}
+
+		function runTests(name){
+			benchmark.assert( !!canvas , 'Create canvas');
+			benchmark.assert( !!ctx , 'Get context 2d');
+
+			// TL aligned
+			var red = new fx.Rectangle(20, 20, 20, 20);
+
+			// Center aligned
+			var green = new fx.Rectangle(40, 40, 20, 20);
+			green.regX = 10;
+			green.regY = 10;
+
+			// BR aligned
+			var blue = new fx.Rectangle(70, 70, 20, 20);
+			blue.regX = 20;
+			blue.regY = 20;
+
+			benchmark.assert( !!red , 'create new Rectangle red');
+			benchmark.assert( !!green , 'create new Rectangle green');
+			benchmark.assert( !!blue , 'create new Rectangle blue');
+			benchmark.assert( red.intersects(green) , 'red intersects green');
+			benchmark.assert( !red.intersects(blue) , 'red does not intersect blue');
+
+			var render = function(){
+				ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
+
+				blue.rotation+= 0.1;
+
+				ctx.fillStyle = "rgba(255,0,0,1)";
+				red.draw(ctx, true);
+
+				ctx.fillStyle = "rgba(0,255,0,1)";
+				green.draw(ctx, true);
+
+				ctx.fillStyle = "rgba(0,0,255,1)";
+				blue.draw(ctx, true);
+			}
+
+			var p = setInterval(render, 1000 / 60);
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'));
+		benchmark.setHeading(document.getElementById('header'), 'fx.Rectangle');
+
+		if(canvas && ctx){
+			runTests();
+		} else{
+			benchmark.assert(!!ctx , 'Create Canvas Element');	
+		}
+
+	</script>
+</body>
+</html>

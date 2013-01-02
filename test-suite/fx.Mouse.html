@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+	<canvas id="canvas" width="250" height="250" style="background-color: #c7c7c7;"></canvas>
+	<div id="results"></div>
+
+	<script>
+		function onMouseEvent (e) {
+			var pos = fx.Mouse.getPos(e);
+
+			if(count === MAX_COUNT){
+				count = 0;
+			} else{
+				count++;
+			}
+		
+			benchmark.assert(pos && pos.event && !isNaN(pos.x) && !isNaN(pos.y), 
+			'[' + count.toString() + '] type: ' + pos.event.type + ' (' + pos.x + ',' + pos.y + ')');
+      	}
+
+		var canvas = document.getElementById('canvas');
+		canvas.addEventListener('mousedown', onMouseEvent, false);
+		canvas.addEventListener('mouseup', onMouseEvent, false);
+		canvas.addEventListener('click', onMouseEvent, false);
+		canvas.addEventListener('dblclick', onMouseEvent, false);
+		canvas.addEventListener('mousewheel', onMouseEvent, false);
+		canvas.addEventListener('mousemove', onMouseEvent, false);
+		canvas.addEventListener('mouseover', onMouseEvent, false);
+		canvas.addEventListener('mouseout', onMouseEvent, false);
+
+		var count = 0;
+		var MAX_COUNT = 10;
+
+		benchmark = new Benchmark(document.getElementById('results'), 'fx.mouse');
+	</script>
+</body>
+</html>

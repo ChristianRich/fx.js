@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="header"></div>
+	<p>A Circle represents a circle containing an x, y and radius property.</p>
+	<div id="results"></div>
+
+	<script>
+		var benchmark,
+			canvas,
+			ctx;
+
+		canvas = document.createElement('canvas');
+		canvas.width = 100;
+		canvas.height = 100;
+
+		try{
+			ctx = canvas.getContext('2d');
+			document.body.appendChild(canvas);
+		} catch(e){
+			//
+		}
+
+		function runTests(name){
+			benchmark.assert( !!canvas , 'Create canvas');
+			benchmark.assert( !!ctx , 'Get context 2d');
+
+			var red = new fx.Circle(10, 10, 10);
+			var green = new fx.Circle(20, 20, 10);
+			var blue = new fx.Circle(50, 50, 15);
+
+			benchmark.assert( !!red , 'create new Circle red', 'hello');
+			benchmark.assert( !!green , 'create new Circle green');
+			benchmark.assert( !!blue , 'create new Circle blue');
+
+			ctx.fillStyle = "rgba(255,0,0,1)";
+			red.draw(ctx);
+
+			ctx.fillStyle = "rgba(0,255,0,1)";
+			green.draw(ctx);
+
+			ctx.fillStyle = "rgba(0,0,255,1)";
+			blue.draw(ctx);
+
+			benchmark.assert( red.intersectsCircle(green) , 'red intersects green');
+			benchmark.assert( !red.intersectsCircle(blue) , 'red does not intersect blue');
+
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'));
+		benchmark.setHeading(document.getElementById('header'), 'fx.Circle');
+
+		if(canvas && ctx){
+			runTests();
+		} else{
+			benchmark.assert( !!ctx , 'Create Canvas Element');	
+		}
+
+	</script>
+</body>
+</html>

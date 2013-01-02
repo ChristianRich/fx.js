@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="results"></div>
+
+	<script>
+
+		function runTests(name){
+			var n = fx.createElement('div').id('boo').addClass('red');
+
+			benchmark.assert( !!fx.createElement('div') , 'new Element');
+			benchmark.assert( fx.isElement(n) , 'fx.isElement', n.toString());
+			benchmark.assert( n.domElement.getAttribute('id') === 'boo' , '.id()', n.toString());
+		}
+
+		var benchmark = new Benchmark(document.getElementById('results'), 'fx.Element');
+
+		runTests();
+
+	</script>
+</body>
+</html>

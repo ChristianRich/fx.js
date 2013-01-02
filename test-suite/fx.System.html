@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="results"></div>
+
+	<script>
+		function runTests(){
+			benchmark.assert(!!fx.System.touch , 'touch events');
+			benchmark.assert(!!fx.System.canvas() , 'canvas');
+			benchmark.assert(!!fx.System.webgl() , 'webgl');
+			benchmark.assert(!!fx.System.html5Video() , 'html5Video');
+			benchmark.assert(!!fx.System.html5Audio() , 'html5Audio');
+			benchmark.assert(!!fx.System.localStorage() , 'localStorage');
+			benchmark.assert(!!fx.System.webWorkers() , 'webWorkers');
+			benchmark.assert(!!fx.System.geoLocation() , 'geoLocation');
+			benchmark.assert(!!fx.System.applicationCache() , 'applicationCache');
+			benchmark.assert(!!fx.System.history() , 'history');
+			benchmark.assert(!!fx.System.getUserMedia() , 'getUserMedia');
+			benchmark.assert(!!fx.System.performanceNow() , 'performance.now()');
+		}
+
+		var benchmark = new Benchmark(document.getElementById('results'), 'fx.System');
+		runTests();
+	</script>
+</body>
+</html>

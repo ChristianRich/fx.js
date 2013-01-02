@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+  	
+  	<link href='http://fonts.googleapis.com/css?family=Didact+Gothic|Crimson+Text' rel='stylesheet' type='text/css'>
+  	<script src="//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
+
+  	<style>
+
+	  	.box{
+	  		border-spacing: 1px solid #666;
+	  		background-color: #fff;
+	  		width: 200px;
+	  		height: auto;
+	  		float: left;
+	  		padding: 10px;
+	  		margin: 10px;
+	  	}
+
+	  	.box h3, .box h4{
+	  		margin-bottom: 10px;
+	  	}
+
+	  	.box h3{
+	  		font-size: 20px;
+	  	}
+  	</style>
+</head> 
+<body>
+
+	<h1>FX classes overview</h1>
+
+	<div class="box">
+		<h3>FX</h3>
+		<h4>Static methods to core library.</h4>
+		<a href="fx.Selectors.html">Selectors (add, remove, has)</a><br>
+	</div>
+
+	<div class="box">
+		<h3>Collections</h3>
+		<h4>Collections provide a common interface for traversing and encapsulating data.</h4>
+		<a href="fx.ArrayIterator.html">ArrayIterator</a><br>
+		<a href="fx.HashMap.html">HashMap</a><br>
+		<a href="fx.Queue.html">Queue</a><br>
+		<a href="fx.Stack.html">Stack</a><br>
+	</div>
+	
+	<div class="box">
+		<h3>Display</h3>
+		<a href="fx.Element.html">Element</a><br>
+		<a href="fx.Image.html">Image</a><br>
+	</div>
+
+	<div class="box">
+		<h3>Geometry</h3>
+		<h4>The geometry package features basic geometric shapes, collision detection and movement in a 2d space.</h4>
+		<a href="fx.Circle.html">Circle</a><br>
+		<a href="fx.Line.html">Line</a><br>
+		<a href="fx.Point.html">Point</a><br>
+		<a href="fx.Rectangle.html">Rectangle</a><br>
+		<a href="fx.Spline.html">Spline</a><br>
+		<a href="fx.Vector2.html">Vector2</a><br>
+	</div>
+
+	<div class="box" style="clear: left;">
+		<h3>Math</h3>
+		<a>Range</a>
+	</div>
+
+	<div class="box">
+		<h3>Time</h3>
+		<h4>Anything relating to time.</h4>
+		<a>Oscillator</a><br>
+		<a href="fx.RAFTimer.html">RAFTimer</a><br>
+		<a href="fx.Timer.html">Timer</a><br>
+	</div>
+
+	<div class="box">
+		<h3>Utilities</h3>
+		<h4>A collection of utilities featuring a static interface.</h4>
+		<a href="fx.CanvasUtils.html">CanvasUtils</a><br>
+		<a>Date</a><br>
+		<a>DelayCall</a><br>
+		<a>Display</a><br>
+		<a>Dom</a><br>
+		<a>Geom</a><br>
+		<a>Keycode</a><br>
+		<a>Math</a><br>
+		<a href="fx.Mouse.html">Mouse</a><br>
+		<a>Object</a><br>
+		<a href="fx.Percent.html">Percent</a><br>
+		<a>QueryString</a><br>
+		<a>String</a><br>
+		<a href="fx.System.html">System</a><br>
+		<a>Type</a><br>
+		<a href="fx.Uri.html">Uri</a><br>
+		<a href="fx.Viewport.html">Viewport</a><br>
+	</div>
+
+	<script>
+  		var supports3DTransforms = document.body.style['webkitPerspective'] !== undefined || document.body.style['MozPerspective'] !== undefined;
+
+  		// Injects a span into every a
+		function linkify( selector ) {
+		    if( supports3DTransforms ) {
+		        var nodes = document.querySelectorAll( selector );
+
+		        for(var i = 0, len = nodes.length; i < len; i++) {
+					var node = nodes[i];
+
+					if(!node.className || !node.className.match( /roll/g )){
+						node.className += ' roll';
+						node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
+					}
+		        }
+		    }
+		}
+
+		linkify('a');
+
+  	</script>
+</body>
+</html>

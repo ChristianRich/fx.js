@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="results"></div>
+	<canvas width="640" height="380" id="canvas" style="background-color: #fff;"></canvas>
+
+	<div style="margin: 10px">
+		Tension (0-2): <input onchange="changeTension(this.value);" type="range" min="0" max="2" value="0.5" step="0.01" />
+		<br><br>
+		Show control points: <input onchange="toggleDebug(this.checked);" type="checkbox" checked></checkbox>
+		<!-- open ends: <input onchange="toggleOpenClose(this.checked);" type="checkbox" checked></checkbox> -->
+		<br><br>
+		<div id="toString"></div>
+	</div>
+
+	<p>Click canvas to create more points.</p>
+
+	<script>
+
+		var canvas,
+			ctx,
+			benchmark,
+			spline,
+			points = [0, 0, 100, 100, 200, 50];
+			debug = true,
+			tension = 0.5,
+			open = false,
+			update = true;
+
+		function addPoint(e){
+			var p = fx.Mouse.getPos(e);
+			points.push(p.x, p.y);
+			updateSpline();
+		}
+
+		function changeTension(v){
+			tension = v;
+			updateSpline();
+		}
+
+		function toggleDebug(v){
+			debug = v;
+			updateSpline();
+		}
+
+		function toggleOpenClose(v){
+			open = v;
+			updateSpline();
+		}
+
+		function updateSpline(){
+			spline = new fx.Spline(points, tension, open, debug);
+			document.querySelector('#toString').innerHTML = spline.toString();
+			update = true;
+		}
+
+		function runTests(){
+			var render = function(){	
+				
+				if(update){
+					ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
+					ctx.save();
+					spline.draw(ctx);
+					ctx.restore();
+					update = false;
+				}
+			}
+
+			var p = setInterval(render, 1000 / 60);
+		}
+
+		canvas = document.querySelector('canvas');
+		canvas.addEventListener('click', addPoint, false);
+		ctx = canvas.getContext('2d');
+		ctx.lineWidth = 4;
+
+		benchmark = new Benchmark(document.getElementById('results'), 'fx.Spline');
+		updateSpline();
+		runTests();
+
+	</script>
+</body>
+</html>

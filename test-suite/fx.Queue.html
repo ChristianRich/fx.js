@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+
+	<!--
+		<script type="text/javascript" src="../src/Fx.js"></script>
+		<script type="text/javascript" src="../src/collections/Queue.js"></script>
+	-->
+
+	<style>
+		.field{
+			width: 550px; 
+			height: 50px; 
+			padding: 5px;
+			background-color: #ffffff;	
+		}
+	</style>
+</head> 
+<body>
+
+	<div id="results"></div>
+
+	<p>A queue is a data type or collection in which the entities in the collection are kept in order and the principal (or only) operations on the collection are the addition of entities to the rear terminal position and removal of entities from the front terminal position.<br>This makes the queue a First-In-First-Out (FIFO) data structure.
+	<br>http://en.wikipedia.org/wiki/Queue_(abstract_data_type)</p>
+	
+	<p>Public methods:</p>
+	<button class="button" onclick="execute('push', queue.push(Math.round(Math.random() * 100)));">Push()</button>
+	<button class="button" onclick="execute('pop', queue.pop());">Pop()</button>
+	<button class="button" onclick="execute('peek', queue.peek());">Peek()</button>
+	<button class="button" onclick="toggleFixedSize.call(this);">Set capacity to 5</button>
+	<p></p>
+	
+	<p>Result of last executes command:</p>
+	<div id="command" class="field"></div>
+
+	<p>Queue toString():</p>
+	<div id="contains" class="field"></div>
+
+	<p>Queue dump:</p>
+	<div id="dump" class="field" style="height: auto;"><br></div>
+
+	<script>
+		var queue,
+			contains = document.querySelector('#contains'),
+			commandDialog = document.querySelector('#command'),
+			dump = document.querySelector('#dump'),
+			maxSize = null;
+
+		function startTest(){
+			queue = new fx.Queue(maxSize);
+			execute('push', queue.push(Math.round(Math.random() * 100)));
+		}
+
+		function toggleFixedSize(){
+			if(maxSize == undefined){
+				maxSize = 5;
+				this.innerHTML = 'Set unlimited capacity';
+			} else{
+				this.innerHTML = 'Set capacity to 5';
+				maxSize = null;
+			}
+
+			startTest();
+		}
+
+		function update(){
+			contains.innerHTML = queue.toString();
+
+			var res = '';
+
+			for(var i = 0; i< queue._queue.length; i++){
+				res += 'value: [' + i + '] ' + queue._queue[i] + '<br>';
+			}
+
+			dump.innerHTML = res;
+			dump.innerHTML = res;
+		}
+
+		function execute(command, result){
+			commandDialog.innerHTML = 'Command executed:<strong> ' + command + '</strong>, result: <strong>' + (result ? result : 'void') + '</strong>';
+			update();
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'), 'fx.Queue');
+		startTest();
+
+	</script>
+</body>
+</html>

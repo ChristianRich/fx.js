@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+
+	<style>
+		.field{
+			width: 550px; 
+			height: auto;
+			min-height: 100px; 
+			padding: 5px;
+			margin-bottom: 20px;
+			margin-top: 5px;
+			background-color: #fff;
+		}
+
+		.testClass{
+			width: 50px;
+			height: 50px;
+			background-color: #00ff00;
+		}
+
+		.red{
+			background-color: #ff0000;
+		}
+	</style>
+</head> 
+<body>
+
+	<div id="header"></div>
+	<p>Selectors</p>
+
+	<div style="width: 400px; height: auto; border: 1px solid #666; padding: 5px;">
+		<h3>Public methods</h3>
+		<p class="code strong">canvasToImage(canvas, x, y, width, height)</p><br>
+		<p class="code">Extracts a specified region of a HTMLCanvasElement and returns an HTMLImageElement</p><br><br>
+	</div>
+
+	<div id="results"></div>
+	<div id="test" class="testClass red"></div>
+
+	<button onclick="addClass('#test', benchmark.randomChars(3));">AddClass</button>
+	<button onclick="removeLastClass('#test');">Remove last added class</button>
+	<button id="btnRedRemove" onclick="fx.removeClass(document.querySelector('#test'), 'red'); update();">Remove class 'red'</button>
+	<button id="btnRedAdd" onclick="fx.addClass(document.querySelector('#test'), 'red'); update();">Add class 'red'</button>
+	<br><br><br>
+
+	<p>Class added:</p>
+	<div id="dump" class="field"></div>
+
+	<p>Element className:</p>
+	<div id="dumpClassName" class="field"></div>
+	<script>
+
+		var benchmark,
+			testElement,
+			lastClassAdded,
+			stack = new fx.Stack(),
+			dump,
+			dumpClassName;
+
+		function domLoaded(e){
+			document.removeEventListener('DOMContentLoaded', domLoaded, false);
+			dump = document.querySelector('#dump');
+			dumpClassName = document.querySelector('#dumpClassName');
+			update();
+		}
+
+		function addClass(element, className){
+			stack.push(className);
+			fx.addClass(document.querySelector(element), className);
+			update();
+		}
+
+		function removeClass(element, className){
+			fx.removeClass(document.querySelector(element), className);
+			update();
+		}
+
+		function removeLastClass(element){
+			fx.removeClass(document.querySelector(element), stack.pop());
+			update();
+		}
+
+		function update(){
+			var res = '';
+
+			for(var i = 0; i< stack._queue.length; i++){
+				res += stack._queue[i] + '<br>';
+			}
+
+			dump.innerHTML = res;
+			dumpClassName.textContent = document.querySelector('#test').className;
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'));
+		benchmark.setHeading(document.getElementById('header'), 'fx');
+		document.addEventListener('DOMContentLoaded', domLoaded, false);
+
+	</script>
+</body>
+</html>

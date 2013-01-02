@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<button class="button" onclick="pause(timer);">Pause timer 1</button>
+	<button class="button" onclick="resume(timer);">Resume timer 1</button>
+	<button class="button" onclick="stop(timer);">Stop timer 1</button>
+	<button class="button" onclick="start(timer);">Start timer 1</button>
+	<button class="button" onclick="reset(timer);">Reset timer 1</button>
+
+	<div id="results"></div>
+	<div id="timer"></div>
+	<br>
+	<div id="timerRand"></div>
+
+	<script>
+
+		var timer,
+			timerRandomInterval;
+
+		function runTests(name){
+			timer = new fx.Timer(200, onTimer);
+			timer.start();
+
+			timerRandomInterval = new fx.Timer([0, 2000], onTimerRand);
+			timerRandomInterval.start();
+
+			setInterval(update, 1000 / 30);
+		}
+
+		function pause(t){
+			t.pause();
+		}
+
+		function resume(t){
+			t.resume();
+		}
+
+		function start(t){
+			t.start();
+		}
+
+		function stop(t){
+			t.stop();
+		}
+
+		function reset(t){
+			t.reset();
+		}
+
+		function update(){
+			document.getElementById('timer').innerHTML = timer.toString();
+			document.getElementById('timerRand').innerHTML = timerRandomInterval.toString();
+		}
+
+		function onTimer(){
+		}
+
+		function onTimerRand(){
+		}
+
+		var benchmark = new Benchmark(document.getElementById('results'), 'fx.Timer');
+
+		runTests();
+		onTimer();
+		onTimerRand();	
+
+	</script>
+</body>
+</html>

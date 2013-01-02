@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="results"></div>
+
+	<script>
+		var benchmark,
+			canvas,
+			ctx;
+
+		canvas = document.createElement('canvas');
+		canvas.width = 300;
+		canvas.height = 300;
+
+		try{
+			ctx = canvas.getContext('2d');
+			document.body.appendChild(canvas);
+		} catch(e){
+			//
+		}
+
+		function runTests(name){
+			// Not related to the test: Crosshairs to visually determine centre of canvas
+			var l1 = new fx.Line(new fx.Point(0, canvas.height / 2), new fx.Point(canvas.width, canvas.height / 2)).draw(ctx);
+			var l2 = new fx.Line(new fx.Point(canvas.width / 2, 0), new fx.Point(canvas.width / 2, canvas.height)).draw(ctx);
+
+			var p1 = new fx.Point(canvas.width / 2, canvas.height / 2);
+			p1.draw(ctx, 10);
+
+			var p2 = new fx.Point(canvas.width / 4, canvas.height / 4);
+			p2.draw(ctx, 10);
+
+			benchmark.assert( !!fx.Point.IsPoint(p1) , 'create new Point', p1.toString());
+			benchmark.assert( !!fx.Point.IsPoint(p2) , 'create new Point', p2.toString());
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'), 'fx.Point');
+
+		if(canvas && ctx){
+			runTests();
+		} else{
+			benchmark.assert( !!ctx , 'Create Canvas Element');	
+		}
+
+	</script>
+</body>
+</html>

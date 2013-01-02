@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+  	<script type="text/javascript" src="js/Benchmark.js"></script>
+  	<script type="text/javascript" src="../dist/fx.min.js"></script>
+
+  	<style>
+  		.mono{
+  			font: 14px "Courier New", Courier, monospace;
+  		}
+  	</style>
+</head> 
+<body>
+
+	<div id="results"></div>
+	<p>A 2d Vector can be described as a quantity having direction as well as magnitude determining the position of one point in a 2d space relative to another.<br>Vectors can be a little hard to grasp at first and are best explained through examples. Vectors unifies velocity, position and rotation into comparable units.
+	</p>
+
+	<p><strong>Use up key for throttle and left / right to rotate ship.</strong></p>
+
+	<canvas id="canvas" width="600" height="360" style="background-color: #ffffff;">
+		<p class="canvas-no-support">Your Browser Does Not Support HTML5 canvas!</p>
+	</canvas>
+
+	<div class="mono" id="output"></div>
+
+	<script>
+		var canvas,
+			ship,
+			rotateLeft = false, 
+ 			rotateRight = false,
+ 			renderer;
+
+		var Ship = function(x, y){
+			this.pos = new fx.Vector2(x || 0, y || 0);
+			this.pos.name = 'pos';
+
+			this.vel = new fx.Vector2(0, 0);
+			this.vel.name = 'vel';
+			
+			this.force = new fx.Vector2(0, 0);
+			this.force.name = 'force';
+
+			this.angle = 0;
+			this.thrustAmount = 0;
+			this.rotateSpeed = 5;
+			this.thrusting = false;
+			this.rotateLeft = false;
+			this.rotateRight = false;
+
+			this.thrust = function(){
+				this.force.reset(0.1, 0);
+    			this.force.rotate(this.angle);
+    			this.vel.add(this.force);
+			}
+
+			this.turnLeft = function() {
+		    	this.angle -= this.rotateSpeed;
+		  	}
+		  
+			this.turnRight = function() {
+				this.angle += this.rotateSpeed; 
+			}
+
+			this.update = function() {
+    			this.pos.add(this.vel);
+
+    			if(this.rotateLeft) {
+    				this.turnLeft();
+    			} else if (this.rotateRight){
+    				this.turnRight();
+  				}
+
+  				this.angle %= 360;
+
+  				if(this.pos.x > 600) this.pos.x = 0;
+  				else if(this.pos.x < 0) this.pos.x = 600;
+  				else if(this.pos.y < 0) this.pos.y = 360;
+  				else if(this.pos.y > 360) this.pos.y = 0;
+  			}
+
+			this.draw = function(ctx){
+				ctx.save();
+				ctx.translate(this.pos.x, this.pos.y);
+				ctx.rotate(this.angle * Math.PI / 180);
+				ctx.beginPath();
+				ctx.moveTo(-10, -10);
+				ctx.lineTo(-10, 10);
+				ctx.lineTo(14, 0);
+				ctx.closePath(); 
+				ctx.stroke();      
+				ctx.restore();
+			}
+		}
+
+		var update = function(){
+			renderer.update();
+			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+			draw(renderer.deltaTime);
+		}
+		
+		var draw = function(dt){
+			if (ship.thrusting){
+				ship.thrust();	
+			} 
+
+			ship.update();
+			ship.draw(ctx);
+			
+			document.getElementById('output').innerHTML = 'pos: ' + ship.pos.toString() + '<br/>' + 'force: ' + ship.force.toString() + '<br/>' + 'vel: ' + ship.vel.toString()+ '<br/>' + 'ship rotation: ' + Math.abs(ship.angle) + ' deg.';
+		}
+
+		var onKeyDown = function(e){
+			if(e.keyCode == 38) ship.thrusting = true
+			else if(e.keyCode == 37) ship.rotateLeft = true; 
+  			else if(e.keyCode == 39) ship.rotateRight = true;
+		}
+
+		var onKeyUp = function(e){
+			if(e.keyCode == 38) ship.thrusting = false
+			else if(e.keyCode == 37) ship.rotateLeft = false; 
+  			else if(e.keyCode == 39) ship.rotateRight = false;
+		}
+
+		canvas = document.getElementById('canvas');
+		ctx = canvas.getContext('2d');
+
+		ship = new Ship(canvas.width / 2, canvas.height / 2);
+		document.addEventListener('keydown', onKeyDown, false );
+		document.addEventListener('keyup', onKeyUp, false );
+
+		renderer = new fx.Renderer(update);
+		renderer.start();
+
+		// Start moving the ship automatically
+		ship.thrust();
+		ship.vel = new fx.Vector2(1);
+
+		var benchmark = new Benchmark(document.getElementById('results'), 'fx.Vector2');
+	</script>
+</body>
+</html>

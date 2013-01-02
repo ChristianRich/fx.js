@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="header"></div>
+
+	<div>
+		<p>Methods for extracting, validating and manipulating Uri's<br>
+			Partially based on Steven Levithan "parseuri" method <a href="http://blog.stevenlevithan.com/archives/parseuri">http://blog.stevenlevithan.com/archives/parseuri</a>
+		</p>
+
+		<p>For this test we're manipulating this url:<br>
+			<strong>http://www.some-domain.com/index.html?id=55#australia/nws/sydney</strong>
+		</p>
+
+	</div>
+
+	<div id="results"></div>
+
+	<script>
+
+		function runTests(){
+			var s = 'http://www.some-domain.com/index.html?id=55#australia/nws/sydney';
+
+			benchmark.assert(fx.Uri.getExtension(s) == 'html' , 'fx.Uri.getExtension()', 'html');
+			benchmark.assert(fx.Uri.stripExtension(s) == 'index' , 'fx.Uri.stripExtension()', 'index');
+			benchmark.assert(fx.Uri.stripQueryString(s) == 'http://www.some-domain.com/index.html', 'fx.Uri.stripQueryString()', 'http://www.some-domain.com/index.html');
+			benchmark.assert(fx.Uri.getFilename(s) == 'index.html', 'fx.Uri.getFilename()', 'index.html');
+			benchmark.assert(fx.Uri.parseHashTag(s) instanceof Object, 'fx.Uri.parseHashTag()', 'returns object with the hash details');
+			benchmark.assert(fx.Uri.parse(s) instanceof Object, 'fx.Uri.parse()', 'returns object with the all uri details');
+			console.dir(fx.Uri.parse(s));
+
+
+			var s = 'Resulting object from fx.Uri.parse():' + '<br>';
+			s += "anchor: 'australia/nws/sydney'" + '<br>';
+			s += "authority: 'www.some-domain.com'" + '<br>';
+			s += "directory: '/'" + '<br>';
+			s += "file: 'index.html'" + '<br>';
+			s += "host: 'www.some-domain.com'" + '<br>';
+			s += "password: ''" + '<br>';
+			s += "path: '/index.html'" + '<br>';
+			s += "port: ''" + '<br>';
+			s += "protocol: 'http'" + '<br>';
+			s += "query: 'id=55'" + '<br>';
+			s += "queryKey: Object" + '<br>';
+			s += "relative: '/index.html?id=55#australia/nws/sydney'" + '<br>';
+			s += "source: 'http://www.some-domain.com/index.html?id=55#australia/nws/sydney'" + '<br>';
+			s += "user: ''" + '<br>';
+			s += "userInfo: ''" + '<br>';
+			document.getElementById('results').innerHTML += s;
+
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'));
+		benchmark.setHeading(document.getElementById('header'), 'fx.Uri');
+		runTests();
+
+	</script>
+</body>
+</html>

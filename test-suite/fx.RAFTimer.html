@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="../dist/fx.min.js"></script>
+    <script type="text/javascript" src="js/Benchmark.js"></script>
+
+    <style>
+        .field{
+            width: 800px; 
+            height: 50px; 
+            padding: 5px;
+            background-color: #ffffff;
+        }
+    </style>
+    
+</head> 
+<body>
+    <div id="results"></div>
+
+    <p>Timer build on requestAnimationFrame / cancelAnimationFrame.<br>To see it function properly 1) start the timer 2) switch the tab 3) notice the time in the document title as you activate / deactive the tab (or dock the browser window).
+    </p><p>RAF Timer supports both time and frame based timing.</p>
+    <br>
+
+    <p>Controls for Timer 1 (time based)</p>
+    <button class="button" onclick="execute('start timer1'); timer1.start();">Start</button>
+    <button class="button" onclick="execute('stop timer1'); timer1.stop();">Stop</button>
+    <button class="button" onclick="execute('reset timer1'); timer1.reset();">Reset</button>
+    <button class="button" onclick="execute('pause timer1'); timer1.pause();">Pause</button>
+    <button class="button" onclick="execute('resume timer1'); timer1.resume();">Resume</button>
+    <br><br>
+
+    <p>Controls for Timer 2 (frame based)</p>
+    <button class="button" onclick="execute('start timer2'); timer2.start();">Start</button>
+    <button class="button" onclick="execute('stop timer2'); timer2.stop();">Stop</button>
+    <button class="button" onclick="execute('reset timer2'); timer2.reset();">Reset</button>
+    <button class="button" onclick="execute('pause timer2'); timer2.pause();">Pause</button>
+    <button class="button" onclick="execute('resume timer2'); timer2.resume();">Resume</button>
+    <br><br>
+
+    <div id="info" class="field"></div>
+    <br><br>
+    <div id="commands" style="height: 100px; overflow: auto;" class="field"></div>  
+
+    <script>
+        var info = document.querySelector('#info'),
+            commands = document.querySelector('#commands'),
+            timer1,
+            timer2;
+
+        function onTimer(){
+        }
+
+        function execute(command, result){
+             commands.innerHTML = 'Command executed:<strong> ' + command + '</strong>, result: <strong>' + (result ? result : 'void') + '</strong>';
+        }
+
+        function update(){
+            info.innerHTML = timer1.toString() + '<br>' + timer2.toString();
+            document.title = 't:' + timer1.getFormattedTime() + ' f:' + timer2.currentFrame;
+        }
+
+        function init(){
+            timer1 = new fx.RAFTimer(5000, onTimer, false);
+            timer2 = new fx.RAFTimer(200, onTimer, true);
+            var i = setInterval(update, 1000 / 30);
+        }
+
+        var benchmark = new Benchmark(document.getElementById('results'), 'fx.RAFTimer');
+        init();
+
+    </script>
+</body>
+</html>

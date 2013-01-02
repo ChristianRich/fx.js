@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+
+	<style>
+		canvas, video, img{
+			border: 1px solid #666;
+		}
+
+		.testCase {
+			width: 200px;
+			height: auto;
+			border: 1px solid #666; 
+			float: left; 
+			margin-left: 20px; 
+			padding: 5px;
+		}
+	</style>
+</head> 
+<body>
+
+	<div id="header"></div>
+	<p>Utility functions to simplify complex Canvas operations.</p>
+
+	<div style="width: 400px; height: auto; border: 1px solid #666; float: left; padding: 5px;">
+		<h3>Public methods</h3>
+
+		<p class="code strong">canvasToImage(canvas, x, y, width, height)</p><br>
+		<p class="code">Extracts a specified region of a HTMLCanvasElement and returns an HTMLImageElement</p><br><br>
+		
+		<p class="code strong">videoToImage(video, x, y, width, height)</p><br>
+		<p class="code">Extracts the current frame of a video and returns an HTMLImageElement (operation will fail if video is tainted with cross domain data)</p><br><br>
+
+		<p class="code strong">imageDataToImage(imageData)</p><br>
+		<p class="code">Converts an ImageData object to an HTMLImageElement</p><br><br>
+		
+		<p class="code strong">putImage(canvas, image)</p><br>
+		<p class="code">Copies the pixels from an HTML5ImageElement onto a HTML5CanvasElement</p><br><br>
+
+		<p class="code strong">getBase64(canvas, x, y, width, height){</p><br>
+		<p class="code">Extracts a specified region of a HTMLCanvasElement and returns a base64 encoded string</p><br><br>
+
+		<p class="code strong">base64toImage(data)</p><br>
+		<p class="code">Converts a base64 string and returns an HTMLImageElement with the dimensions as specified in the base64 data </p><br><br>
+
+		<p class="code strong">crop(canvas, x, y, width, height){</p><br>
+		<p class="code">Returns a cloned canvas cropped to specified dimensions</p><br><br>
+
+		<p class="code strong">getImageData(canvas, x, y, width, height){</p><br>
+		<p class="code">Returns the imageData from a HTMLCanvasElement as per specified by the supplied clip rect (clip rect is optional)</p><br><br>
+
+		<p class="code strong">getImageData2(src){</p><br>
+		<p class="code">Returns the imageData from any Element implementing the CanvasImageSource and ImageBitmap interfaces (HTMLCanvasElement | CanvasRenderingContext2D | HTMLVideoElement | HTMLImageElement)</p><br><br>
+
+		<p class="code strong">getCanvas()</p><br>
+		<p class="code">Returns a new HTMLCanvasElement</p><br><br>
+
+		<p class="code strong">clone(canvas)</p><br>
+		<p class="code">Clones a canvas with same dimensions and pixelData contents as supplied canvas. CSS properties are however not cloned.</p><br><br>
+
+		<p class="code strong">isSupported()</p><br>
+		<p class="code">Checks for overall canvas and getImageData support. Test will fail if canvas is tainted by cross-domain data</p>
+	</div>
+
+	<div class="testCase">
+		<h4>putImage</h4>
+		<p>Source: HTMLImageElement</p>
+		<image id="image" width="128" height="72" src="assets/blue-flower.jpg" />
+
+		<p>Result: HTMLCanvasElement</p>
+		<canvas id="canvas1" width="128" height="72"></canvas>
+	</div>
+
+	<div class="testCase">
+		<h4>crop</h4>
+		<p>Source: HTMLCanvasElement</p>
+		<canvas id="canvas2" width="128" height="72"></canvas>
+
+		<p>Result: HTMLCanvasElement</p>
+		<div id="croppedCanvasContainer"></div>
+	</div>
+
+	<div class="testCase">
+		<h4>videoToImage</h4>
+		<p>Source: HTMLVideoElement</p>
+
+		<video id="video" width="128" height="72" autoplay loop>
+			<source src="assets/seekae-lo.webm" type="video/webm" />
+			<source src="assets/seekae-lo.mp4" type="video/mp4" />
+			<p>Your browser does not support HTML5 Video.</p>
+		</video>
+
+		<p>Result: HTMLImageElement copied from video</p>
+		<div id="toImageContainer1" style="width: 128px; height: 72px;"></div>
+
+		<p>Result: HTMLImageElement copied from video (cropped frame)</p>
+		<div id="toImageContainer2" style="width: 128px; height: 72px;"></div>
+	</div>
+
+	<div class="testCase">
+		<h4>videoToCanvas</h4>
+		<p>Source: HTMLVideoElement</p>
+
+		<video id="video2" width="128" height="72" autoplay loop>
+			<source src="assets/seekae-lo.webm" type="video/webm" />
+			<source src="assets/seekae-lo.mp4" type="video/mp4" />
+			<p>Your browser does not support HTML5 Video.</p>
+		</video>
+
+		<p>Result: HTMLCanvasElement copied from video</p>
+		<canvas id="canvas3" width="128" height="72"></canvas>
+	</div>
+
+	<div id="results"></div>
+
+	<script>
+
+		var benchmark,
+			canvas1,
+			video,
+			video2,
+			image = document.querySelector('#image'),
+			videoToCanvasCtx;
+
+		function domLoaded(e){
+			document.removeEventListener('DOMContentLoaded', domLoaded, false);
+			image.onload = runTests;
+		}
+
+		function runTests(){
+			canvas1 = document.querySelector('#canvas1');
+			video = document.querySelector('#video');
+			video2 = document.querySelector('#video2');
+			videoToCanvasCtx = document.querySelector('#canvas3').getContext('2d');
+			fx.CanvasUtils.putImage(canvas1, image);
+			fx.CanvasUtils.putImage(canvas2, image);
+
+			document.querySelector('#croppedCanvasContainer').appendChild(
+				fx.CanvasUtils.crop(canvas2, 0, 0, image.width / 2, image.height / 2)
+			);
+
+			var timer1 = setInterval(putImageVideoTest, 1000);
+			var timer2 = interval = setInterval(putVideoCanvasTest, 1000 / 30);
+			putImageVideoTest();
+		}
+
+		function putImageVideoTest(){
+			var container1 = document.querySelector('#toImageContainer1'),
+				container2 = document.querySelector('#toImageContainer2');
+
+			while(container1.firstChild) {
+				container1.removeChild(container1.firstChild);
+			}
+
+			while(container2.firstChild) {
+				container2.removeChild(container2.firstChild);
+			}
+
+			container1.appendChild(fx.CanvasUtils.videoToImage(video));
+			container2.appendChild(fx.CanvasUtils.videoToImage(video, 0, 0, video.width / 2, video.height / 2));
+		}
+
+		function putVideoCanvasTest(){
+			fx.CanvasUtils.videoToCanvas(video2, videoToCanvasCtx);
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'));
+		benchmark.setHeading(document.getElementById('header'), 'fx.CanvasUtils');
+		document.addEventListener('DOMContentLoaded', domLoaded, false);
+
+	</script>
+</body>
+</html>

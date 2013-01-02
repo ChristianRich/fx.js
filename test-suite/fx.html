@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="results"></div>
+
+	<script>
+		function runTests(name){
+			benchmark.addGroup('Determine primitive and complex types');
+
+			benchmark.assert( fx.getType('hello') === '[object String]', 'Identify type String');
+			benchmark.assert( fx.getType({}) === '[object Object]', 'Identify type Object');
+			benchmark.assert( fx.getType([]) === '[object Array]', 'Identify type Array');
+			benchmark.assert( fx.getType(5) === '[object Number]', 'Identify type Number');
+			benchmark.assert( fx.getType(null) === '[object Null]', 'Identify type Null');
+			benchmark.assert( fx.getType(undefined) === '[object Undefined]', 'Identify type Undefined');
+			benchmark.assert( fx.getType(true) === '[object Boolean]', 'Identify type Boolean');
+			benchmark.assert( fx.getType( function(){}) === '[object Function]', 'Identify type Function');
+
+			benchmark.addGroup('Helper methods');
+			benchmark.assert( fx.hasPrefix('#boo', '#'), 'function hasPrefix (ID)');
+			benchmark.assert( fx.hasPrefix(':red', ':'), 'function hasPrefix (selector)');
+			benchmark.assert( fx.hasPrefix('8gfdgdsd', 'dffer8'), 'function hasPrefix (random)');
+			benchmark.assert( !fx.hasPrefix(':hello', '#'), 'function hasPrefix (reversed bool)');
+			benchmark.assert( fx.isQuery(':boo'), 'function isQuery');
+			benchmark.assert( fx.isQuery('#baa'), 'function isQuery');
+			benchmark.assert( fx.isQuery({'width' : '200px'}), 'function isQuery');
+			benchmark.assert( !fx.isQuery([]), 'function isQuery (reversed bool)');
+			benchmark.assert( !fx.isQuery('container'), 'function isQuery (reversed bool)');
+
+			benchmark.assert( fx.isNode(document.createElement('div')), 'function isNode (arg is div)');
+			benchmark.assert( fx.isNode(document), 'function isNode (arg is document)');
+			benchmark.assert( !fx.isNode('boo'), 'function isNode (arg is String)');
+			benchmark.assert( fx.isElementNode(document.createElement('p')), 'function isElement (arg is p)');
+			benchmark.assert( fx.isDocumentNode(document), 'function isDocumentNode');
+
+			benchmark.assert( fx.createElement('div') instanceof fx.Element, 'function createElement');
+			benchmark.assert( fx.isElement( fx.createElement('div') ), 'function isElement');
+			benchmark.assert( !fx.isHTMLString( 'hello' ), 'function isHTMLString');
+			benchmark.assert( fx.isHTMLString( "<div id='king'></div>" ), 'function isHTMLString');
+		}
+
+		var benchmark = new Benchmark(document.getElementById('results'), 'fx');
+		runTests();
+	</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+
+	<style>
+		.field{
+			width: 550px; 
+			height: 50px; 
+			padding: 5px;
+			background-color: #ffffff;	
+		}
+	</style>
+</head> 
+<body>
+
+	<div id="results"></div>
+
+	<p>A stack is a Last-in-first-out (LIFO) data structure that remembers in which order elements are added.
+	Each time an element is added it is pushed on to the stack and popped when called.</p>
+
+	<p>http://en.wikipedia.org/wiki/Stack_(abstract_data_type)</p>
+
+	<p>Public methods:</p>
+	<button class="button" onclick="execute('push', stack.push(Math.round(Math.random() * 100)));">Push()</button>
+	<button class="button" onclick="execute('pop', stack.pop());">pop()</button>
+	<button class="button" onclick="execute('peek', stack.peek());">peek()</button>
+	<button class="button" onclick="execute('getSize', stack.getSize());">getSize()</button>
+	<button class="button" onclick="toggleFixedSize.call(this);">Set capacity to 5</button>
+	<p></p>
+	
+	<p>Result of last executes command:</p>
+	<div id="command" class="field"></div>
+
+	<p>Stack toString():</p>
+	<div id="contains" class="field"></div>
+
+	<p>Stack dump:</p>
+	<div id="dump" class="field" style="height: auto;"><br></div>
+
+	<script>
+		var stack,
+			contains = document.querySelector('#contains'),
+			commandDialog = document.querySelector('#command'),
+			dump = document.querySelector('#dump'),
+			maxSize = null;
+
+		function startTest(){
+			stack = new fx.Stack(maxSize);
+			execute('push', stack.push(Math.round(Math.random() * 100)));
+		}
+
+		function toggleFixedSize(){
+			if(maxSize == undefined){
+				maxSize = 5;
+				this.innerHTML = 'Set unlimited capacity';
+			} else{
+				this.innerHTML = 'Set capacity to 5';
+				maxSize = null;
+			}
+
+			startTest();
+		}
+		
+		function update(){
+			contains.innerHTML = stack.toString();
+
+			var res = '';
+
+			for(var i = 0; i< stack._queue.length; i++){
+				res += 'value: [' + i + '] ' + stack._queue[i] + '<br>';
+			}
+
+			dump.innerHTML = res;
+		}
+
+		function execute(command, result){
+			commandDialog.innerHTML = 'Command executed:<strong> ' + command + '</strong>, result: <strong>' + (result ? result : 'void') + '</strong>';
+			update();
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'), 'fx.Stack');
+		startTest();
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="results"></div>
+	<button class="button" onclick="refresh();">Re-calculate</button>
+	<button class="button" onclick="empty();">Clear</button>
+
+	<script>
+		function runTests(){
+			benchmark.assert(!isNaN(fx.Viewport.width()) , 'Viewport width', fx.Viewport.width());
+			benchmark.assert(!isNaN(fx.Viewport.height()) , 'Viewport height', fx.Viewport.height());
+			benchmark.assert(!isNaN(fx.Viewport.dimensions().width) , 'Viewport dimensions height', fx.Viewport.dimensions().width); 
+			benchmark.assert(!isNaN(fx.Viewport.dimensions().height) , 'Viewport dimensions height', fx.Viewport.dimensions().height); 	
+		}
+
+		function refresh(){
+			runTests();	
+		}
+
+		function empty(){
+			benchmark.clearResults();
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'), 'fx.Viewport');
+		runTests();
+	</script>
+</body>
+</html>

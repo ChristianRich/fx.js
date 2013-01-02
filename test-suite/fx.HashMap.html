@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+
+	<style>
+		.field{
+			width: 550px; 
+			height: 50px; 
+			padding: 5px;
+			background-color: #ffffff;	
+		}
+
+		input{
+			padding: 5px;
+			box-sizing: border-box;
+		}
+
+	</style>
+</head> 
+<body>
+	<div id="header"></div>
+	<div id="results"></div>
+	<p>The HashMap encapsulates an unordered list of data and provides a common interface for traversal and manipulation.<br>For testing purposes this HashMap has been pre-populated with some random data.</p>
+	<p>Public methods:</p>
+
+	<button class="button" onclick="map.add(benchmark.randomChars(3).toLowerCase(), benchmark.randomChars(Math.random() * 10)); execute('add', 'void');">add()</button>
+
+	<br>
+
+	<button class="button" onclick="execute('get', map.get(document.querySelector('#getValue').value));">get()</button>
+	<input type="text" id="getValue" value="a" />
+
+	<br>
+
+	<button class="button" onclick="execute('contains', map.contains(document.querySelector('#getContains').value));">contains()</button>
+	<input type="text" id="getContains" value="b" />
+
+	<br>
+	<button class="button" onclick="execute('random', map.random());">random()</button>
+
+	<br>
+	<button class="button" onclick="execute('delete', map.delete(document.querySelector('#getDelete').value));">delete()</button>
+	<input type="text" id="getDelete" value="b" />
+
+	<br>
+	<button class="button" onclick="execute('flush', map.flush());">flush()</button>
+
+	<p></p>
+
+	<p>HashMap current state:</p>
+	<div id="arrayCurrentState" class="field"></div>
+	
+	<p>Result of last executed command:</p>
+	<div id="result" class="field"></div>
+
+	<p>HashMap contains:</p>
+	<div id="contains" class="field" style="height: auto;"></div>
+
+	<script>
+		var benchmark,
+			map,
+			resultOutput = document.querySelector('#result'),
+			arrayCurrentState = document.querySelector('#arrayCurrentState');
+
+		function startTest(){
+			resultOutput.innerHTML = '';
+
+			map = new fx.HashMap();
+			map.add('a', benchmark.randomChars(Math.random() * 10));
+			map.add('b', benchmark.randomChars(Math.random() * 10));
+			map.add('n', benchmark.randomChars(Math.random() * 10));
+			execute('add', 'void');
+
+			update();
+		}
+
+		function update(){
+			arrayCurrentState.innerHTML = map.toString();
+			updateContents();
+		}
+
+		function updateContents(){
+			var res = '';
+
+			for(var i = 0; i < map.keys.length; i++){
+				res += 'key: <strong>' + map.keys[i] + '</strong>, value: <strong>' + map.get(map.keys[i]) + '</strong><br>';
+			}
+
+			document.querySelector('#contains').innerHTML = res;	
+		}
+
+		function execute(command, result){
+			resultOutput.innerHTML = 'Command executed:<strong> ' + command + '</strong>, result: <strong>' + result + '</strong>';
+			update();
+		}
+
+		benchmark = new Benchmark(document.getElementById('results'));
+		benchmark.setHeading(document.getElementById('header'), 'fx.HashMap');
+		startTest();
+
+	</script>
+</body>
+</html>
