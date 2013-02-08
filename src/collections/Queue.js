@@ -31,6 +31,21 @@ fx.Queue.prototype = {
 	},
 
 	/**
+	* Pushes an item to the index position
+	*/
+	pushAt : function(value, index){
+		if(this._queue.length + 1 > this._capacity){
+			this.pop();
+		}
+
+		if(index == undefined){
+			throw new Error('Too few arguments.');
+		}
+
+		this._queue[index] = value;
+	},
+
+	/**
 	* Removes the object at the top of this stack and returns that object.
 	*/
 	pop : function(){

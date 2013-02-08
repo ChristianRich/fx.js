@@ -37,6 +37,28 @@ fx.HashMap.prototype = {
 	},
 
 	/**
+	* Same as get. Used for the sake of naming convention
+	*/
+	getValueByKey : function(key){
+		return this.get(key);
+	},
+
+	/**
+	* Reverse lookup. Returns the key based on the value
+	*/
+	getKeyByValue : function(value){
+		for(var prop in this.dict){
+			if(this.dict.hasOwnProperty(prop)){
+				if(this.dict[prop] === value){
+					return prop;
+				}
+			}
+		}
+
+		return null;
+	},
+
+	/**
 	* Returns true if an item exists in the collection
 	*/
 	contains : function(key){

@@ -3,12 +3,22 @@
 * Oscillates between start and end values when step() is called using a standard linear curve 
 * This is also sometimes referred to as a numeric stepper only the Oscillator calculates it's own step and supports reverse
 * Useful for animation and games
+*
+* Can be combined with easing functions (like Robert Penner's)
+*/
+
+/**
+* @param {number} start
+* @param {number} end
+* @param {number} step
+* @param {boolean=} reverse optional
 */
 fx.Oscillator = function(start, end, step, reverse){
 	this.start = start || 0;
 	this.end = end || 1;
 	this.step = step || 0.1;
 	this.reverse = reverse;
+	this.easing = easing;
 	this.value = start;
 
 	if(this.reverse === undefined){
@@ -23,6 +33,7 @@ fx.Oscillator.prototype = {
 	* @return {void}
 	*/
 	update : function(){
+
 		this.value += this.step;
 
 		if(this.value >= this.end){

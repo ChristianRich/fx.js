@@ -6,6 +6,7 @@
   	<meta name="apple-mobile-web-app-capable" content="yes">
   	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script type="text/javascript" src="../dist/fx.min.js"></script>
+	<script type="text/javascript" src="../src/collections/HashMap.js"></script>
 	<script type="text/javascript" src="js/Benchmark.js"></script>
 
 	<style>
@@ -75,7 +76,11 @@
 			map.add('a', benchmark.randomChars(Math.random() * 10));
 			map.add('b', benchmark.randomChars(Math.random() * 10));
 			map.add('n', benchmark.randomChars(Math.random() * 10));
+			map.add('x', 'y');
 			execute('add', 'void');
+
+
+			console.log('keyByVal: ' + map.getKeyByValue('y'))
 
 			update();
 		}

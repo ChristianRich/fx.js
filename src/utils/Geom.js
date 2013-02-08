@@ -126,7 +126,7 @@ fx.Geom = {
 	},
 
 	/**
-	* Determines the angle / degree between the first and second point.	 
+	* Determines the angle / degree between the first and second point in relation to the positive x-axix.
 	* @param {Object} first
 	* @param {Object} second
 	* @return {number} The degree between the two points
