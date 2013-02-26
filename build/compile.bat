@@ -4,6 +4,7 @@ java -jar compiler.jar ^
 --js ../src/collections/HashMap.js ^
 --js ../src/collections/Stack.js ^
 --js ../src/collections/Queue.js ^
+--js ../src/collections/Sequencer.js ^
 --js ../src/display/Element.js ^
 --js ../src/display/Image.js ^
 --js ../src/geom/Circle.js ^
