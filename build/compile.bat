@@ -21,6 +21,7 @@ java -jar compiler.jar ^
 --js ../src/time/Timer.js ^
 --js ../src/time/RAFTimer.js ^
 --js ../src/utils/CanvasUtils.js ^
+--js ../src/utils/CookieUtils.js ^
 --js ../src/utils/Date.js ^
 --js ../src/utils/DelayCall.js ^
 --js ../src/utils/Dom.js ^
