@@ -4,7 +4,7 @@
 * Timer can either be based on miliseconds or frames
 * Useful for linking game timers to animation based of rAF.
 * 
-* @param {Number} duration in miliseconds or number of frames, if useFrames is set to true
+* @param {Number} duration in miliseconds or number of frames if useFrames is set to true
 * @param {Function} notify callback
 * @param {Boolean} useFrames false (default) makes the timer use miliseconds. True forces it to frame based timing.
 */
@@ -23,23 +23,21 @@ fx.RAFTimer = function(duration, notify, useFrames){
         throw new Error('Missing required parameter \'notify\'.');
     }
 
-    /**
-    * Using performance.now() when available (recently introduced HTML5 feature)
-    * The precesion timer does not affect frame based timing
-    * http://updates.html5rocks.com/2012/08/When-milliseconds-are-not-enough-performance-now
-    */
- 	window.performance = window.performance || {};
-    performance.now = performance.now || performance.webkitNow || performance.mozNow || performance.msNow || performance.oNow;
+	this.usePresicionTimer = !!window.performance && !!window.performance.now;
 
-    if(!performance.now){
-    	performance.now = function() {
-    	   return new Date().getTime();
-    	}
-
-    	this.usePresicionTimer = false;
-    } else{
-    	this.usePresicionTimer = true;
-    }
+	/**
+	* High precision timer
+	* http://updates.html5rocks.com/2012/08/When-milliseconds-are-not-enough-performance-now
+	*/
+	window.performance = window.performance || {};
+	performance.now = (function() {
+		return performance.now    ||
+			performance.mozNow    ||
+			performance.msNow     ||
+			performance.oNow      ||
+			performance.webkitNow ||
+			function() { return new Date().getTime(); };
+	})();
 
     this.duration = duration;
     this.notify = notify;
@@ -55,7 +53,7 @@ fx.RAFTimer = function(duration, notify, useFrames){
     this.currentFrame = 0;
 
     // Increased by one when timer reaches it's duration and notify is called
-    this.tick = 0;
+    this.count = 0;
 
     /**
     * Max delta time threshold set at 160 ms / 6.25 fps. 
@@ -64,45 +62,35 @@ fx.RAFTimer = function(duration, notify, useFrames){
     this.maxDeltaTime = 160;
 
     var lastTime,
-    	that = this;
+    	self = this;
 
     this._callback = function(){
-        that.currentTime = that.duration;
-        that.tick++;
-        that.lastTime = 0;
-        that.reset();
-
-        if(that.notify){
-            that.notify.call(that);
-        }
+        self.currentTime = self.duration;
+        self.count++;
+        self.lastTime = 0;
+        self.reset();
+      	self.notify.call(self);
     }
 
-    this._handleAF = function(){
-    	if(!that.running || that.paused){
-    		return;
-    	}
+    this._tick = function(){
+    	if(!self.running || self.paused) return;
 
-        if(that.useFrames){
-            if(that.currentFrame == that.duration){
-                that._callback();
-            }
-        } else if(that.currentTime >= that.duration){
-            that._callback();  
+        if(self.useFrames){
+            if(self.currentFrame == self.duration) self._callback();
+        } else if(self.currentTime >= self.duration){
+            self._callback();
         }
 
     	var now = performance.now();
-		that.ms = now - (lastTime || now);
+		self.ms = now - (lastTime || now);
 
         // When rAF resumes from idle state and ms is greater than 160 ms don't add the value to accumulated time (assuming the tab / window was inactive)
-		if(that.ms > that.maxDeltaTime){
-           that.ms = 0;
-		}
-
+		if(self.ms > self.maxDeltaTime) self.ms = 0;
 		lastTime = now;
 
-        that.currentTime += that.ms;
-        that.currentFrame++;
-        that.requestId = requestAnimationFrame(that._handleAF);
+        self.currentTime += self.ms;
+        self.currentFrame++;
+        self.requestId = requestAnimationFrame(self._tick);
     }
 }
 
@@ -112,22 +100,16 @@ fx.RAFTimer.prototype = {
     * Starts the timer (if timer is paused only resume can re-start the timer)
     */
     start : function(){
-    	if(this.running || this.paused){
-    		return;
-    	}
-
+    	if(this.running || this.paused) return;
     	this.running = true;
-    	this.requestId = requestAnimationFrame(this._handleAF);
+    	this.requestId = requestAnimationFrame(this._tick);
     },
 
     /**
     * Stops the timer (timer will not resume if rAF stops and is restarted)
     */
     stop : function(){
-    	if(!this.running){
-    		return;
-    	}
-
+    	if(!this.running) return;
     	this.running = false;
         this.paused = false;
         this.reset();
@@ -138,10 +120,7 @@ fx.RAFTimer.prototype = {
     * Pauses the timer (if the timer is already running)
     */
     pause : function(){
-        if(this.paused || !this.running){
-            return;
-        }
-
+        if(this.paused || !this.running) return;
         this.paused = true;
     },
 
@@ -149,12 +128,9 @@ fx.RAFTimer.prototype = {
     * Resumes from the last current time if timer is running but paused (opposed to stop that triggers a restart once rAF continues)
     */
     resume : function(){
-        if(!this.paused){
-            return;
-        }
-
+        if(!this.paused) return;
         this.paused = false;
-        this.requestId = requestAnimationFrame(this._handleAF);
+        this.requestId = requestAnimationFrame(this._tick);
     },
 
     /**
@@ -176,7 +152,7 @@ fx.RAFTimer.prototype = {
     * Returns true if rAF is active (currenly intervals exceeding 160ms will result in false)
     */
     rafActive : function(){
-        return ms < this.maxDeltaTime;
+        return this.ms < this.maxDeltaTime;
     },
 
     /**
@@ -200,8 +176,9 @@ fx.RAFTimer.prototype = {
             res += 'duration(ms): ' + this.duration + ', currentTime: ' + this.getFormattedTime();
         }
 
-        res += ', tick: ' + this.tick + ', running: ' + this.running + ', paused: ' + this.paused;
+        res += ', count: ' + this.count + ', running: ' + this.running + ', paused: ' + this.paused;
 
+		// Precisicion timer is not applicaple when using frame based timing since time stamps are not used
         if(!this.useFrames){
             res += ', precisionTimer: ' + this.usePresicionTimer;
         }
@@ -209,3 +186,5 @@ fx.RAFTimer.prototype = {
         return res;
     }
 }
+
+=

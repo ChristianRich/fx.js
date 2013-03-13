@@ -1,8 +1,6 @@
 /**
  * (c) Christian Schlosrich 2012
  * Timer with additional functionality like context binding, random time intervals, pause and resume.
- * @param {Number | Array} time as Number or a range timer as Array with excactly two numerical values [start, end]
- * @param {Function} The callback function when the timer completes
  *
  * Example:
  *
@@ -18,15 +16,23 @@
  * timer.start();
  * 
  */
+
+/**
+ * @param time {Number | Array} time as Number or a range timer as Array with excactly two numerical values [start, end]
+ * @param notify {Function} The callback function when the timer completes
+ */
 fx.Timer = function(time, notify){
 
-	// Validating and parsing supplies args:
+	if(!window.requestAnimationFrame || !window.cancelAnimationFrame){
+		throw new Error('requestAnimationFrame and cancelAnimationFrame are required for Timer');
+	}
+
 	if(Object.prototype.toString.apply(time) === '[object Array]'){
 
 		if(time.length !== 2){
-			throw new Error('Parameter \'Time\' used as random range must contain excactly two numericla values: start and end');
+			throw new Error('Parameter \'Time\' used as random range must contain excactly two numerical values: start and end');
 		} else if(Object.prototype.toString.apply(time[0]) !== '[object Number]' || Object.prototype.toString.apply(time[1]) !== '[object Number]'){
-			throw new Error('Time parameter \'mix\' and \'mix\' must be numerical');
+			throw new Error('Time parameter \'min\' and \'max\' must be numerical');
 		}
 
 		this.min = time[0];
@@ -49,8 +55,23 @@ fx.Timer = function(time, notify){
 	this.running = false;
 	this.paused = false;
 	this.context = this;
-	
-	var that = this;
+	this.usePresicionTimer = !!window.performance.now;
+
+	var self = this;
+
+	/**
+	* High precision timer
+	* http://updates.html5rocks.com/2012/08/When-milliseconds-are-not-enough-performance-now
+	*/
+	window.performance = window.performance || {};
+	performance.now = (function() {
+		return performance.now    ||
+			performance.mozNow    ||
+			performance.msNow     ||
+			performance.oNow      ||
+			performance.webkitNow ||
+			function() { return new Date().getTime(); };
+	})();
 
 	// @private
 	this._getRndInterval = function(){
@@ -59,31 +80,28 @@ fx.Timer = function(time, notify){
 
 	// @private
 	this._onNotify = function(){
-		if(that.notify){
-			that.notify.call(that.context);
-		} else{
-			console.warn('fx.Timer has completed its countdown but the notify callback is null');
-		}
-		
-		that.tick++;
 
-		if(that.isRandomize){
-			clearTimeout(that.id);
-			that.id = setTimeout(that._onNotify, that._getRndInterval());	
+		self.notify.call(self.context);
+		self.tick++;
+
+		if(self.isRandomize){
+			clearTimeout(self.id);
+			self.id = setTimeout(self._onNotify, self._getRndInterval());
 		}
 	}
 }
 
 fx.Timer.prototype = {
 
+	_tick : function(){
+
+	},
+
 	/**
 	* Starts the timer (applicable on timers that are not running)
 	*/
 	start : function(){
-		if(this.running || this.paused){
-			return this;
-		}
-
+		if(this.running || this.paused) return this;
 		this.running = true;
 
 		if(this.isRandomize){
@@ -99,9 +117,7 @@ fx.Timer.prototype = {
 	* Stop the timer (applicable on running timers only)
 	*/
 	stop : function(){
-		if(!this.running){
-			return this;
-		}
+		if(!this.running) return this;
 
 		clearInterval(this.id);
 		clearTimeout(this.id);
@@ -117,9 +133,7 @@ fx.Timer.prototype = {
 	* This is useful for pausing and resuming timers on window blur and focus events.
 	*/
 	pause : function(){
-		if(this.paused || !this.running){
-			return this;
-		}
+		if(this.paused || !this.running) return this;
 
 		this.paused = true;
 
@@ -132,9 +146,7 @@ fx.Timer.prototype = {
 	* Resumes the timer (applicable on running and paused timers only)
 	*/
 	resume : function(){
-		if(!this.paused){
-			return this;
-		}
+		if(!this.paused) return this;
 
         this.paused = false;
 
@@ -180,7 +192,7 @@ fx.Timer.prototype = {
 	toString : function(){
         var r = '[Timer] time: ';
         r += this.isRandomize ? (this.min + '-' + this.max) : this.time;
-        r += ', running: ' + this.running + ', paused: ' + this.paused + ', tick: ' + this.tick;
+        r += ', running: ' + this.running + ', paused: ' + this.paused + ', tick: ' + this.tick + ', usePresicionTimer: ' + this.usePresicionTimer;
         return r;
     }
 }
