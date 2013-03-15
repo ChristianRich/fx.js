@@ -1,12 +1,25 @@
-fx.Sequencer = function(size, start){
 
-	if(!size){
-		throw new Error('Too few arguments.');
-	}
+/**
+ * Sequencer is a data structure containing numbers only.
+ * The numerical range is infinite and can by randomized using the shuffle() method.
+ * This data structure was made for a game where random numbers was needed in sequences, 
+ * but the same number was not to be repeated more than once per sequence.
+ *
+ * This will produce a random sequence of numbers between 0 and 100:
+ *
+ * var s = new Sequence(100);
+ * s.shuffle();
+ *
+ */
+fx.Sequencer = function(size, start){
 
 	if(!(this instanceof arguments.callee)){
         throw new Error('Constructor called as a function.');
     }
+
+	if(!size){
+		throw new Error('Too few arguments.');
+	}
 
 	this.size = size;
 	this.index = -1;
@@ -38,14 +51,14 @@ fx.Sequencer.prototype = {
 	},
 
 	shuffle : function(){
-		var len = this.data.length;
-		var i = len;
+		var len = this.data.length,
+			i = len;
 
 		while(i--) {
-		var p = parseInt(Math.random() * len);
-		var t = this.data[i];
-		this.data[i] = this.data[p];
-		this.data[p] = t;
+			var p = parseInt(Math.random() * len),
+				t = this.data[i];
+			this.data[i] = this.data[p];
+			this.data[p] = t;
 		}
 
 		return this;
