@@ -13,6 +13,7 @@ java -jar compiler.jar ^
 --js ../src/geom/Rectangle.js ^
 --js ../src/geom/Spline.js ^
 --js ../src/geom/Vector2.js ^
+--js ../src/math/Percent.js ^
 --js ../src/math/Range.js ^
 --js ../src/psysics/Renderer.js ^
 --js ../src/psysics/RidgidBody.js ^
@@ -30,7 +31,6 @@ java -jar compiler.jar ^
 --js ../src/utils/Math.js ^
 --js ../src/utils/Mouse.js ^
 --js ../src/utils/Object.js ^
---js ../src/utils/Percent.js ^
 --js ../src/utils/QueryString.js ^
 --js ../src/utils/String.js ^
 --js ../src/utils/System.js ^

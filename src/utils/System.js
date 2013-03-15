@@ -60,36 +60,6 @@ fx.System = {
     },
 
     /**
-    * Returns an object containing supported file types (this method is dodgy and incomplete btw)
-    * @return {Object}
-    */
-    html5VideoSupportedType : function(){
-        if(!this.html5Video){
-            return {'result' : 'HTML5 video is unsupported'};
-        }
-
-        var result = {};
-
-        var types = [
-            'video/webm;'   ,
-            'video/ogg;'    ,
-            'video/mp4;'    ,
-            'video/3gp;'    ,
-            'video/avi;'    ,
-            'video/mpeg4;'
-        ];
-
-        var v = document.createElement('video');
-
-        for(var i = 0; i < types.length; i++){
-            var r = v.canPlayType(types[i]);
-            result[types[i]] = r;
-        }
-
-        return result;
-    },
-
-    /**
     * Audio API
     * @return {boolean} 
     */
@@ -141,11 +111,11 @@ fx.System = {
         return !!(window.history && history.pushState);
     },
 
-    getUserMedia : function() {
+    webRTC : function() {
         return !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
     },
 
-    performanceNow : function(){
-        return !!window.performance.now;
+    webAudio : function(){
+        return !!('AudioContext' in window || 'webkitAudioContext' in window);
     }
 }
