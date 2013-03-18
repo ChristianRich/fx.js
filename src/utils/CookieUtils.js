@@ -11,17 +11,47 @@ fx.CookieUtils = {
 		return res ? res[1] : null;
 	},
 
+	has : function(name){
+		return !!this.get(name);
+	},
+
 	'delete' : function(name){
 		if(!this.has(name)){
 			return;
 		}
 
-		var d = new Date();
-  		d.setTime(d.getTime() -1 );
-  		document.cookie = name += '=; expires=' + d.toGMTString();
+		document.cookie = (name += '=;' + fx.CookieUtils.EXPIRES).toString();
 	},
 
-	has : function(name){
-		return !!this.get(name);
+	deleteAll : function(){
+		var cookies = document.cookie.split(';');
+
+		for(var i = 0; i < cookies.length; i++) {
+			var cookie = cookies[i],
+				eqPos = cookie.indexOf('='),
+				name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+
+			document.cookie = (name + '=;' + fx.CookieUtils.EXPIRES).toString();
+		}
+	},
+
+	dump : function(){
+		var cookies = document.cookie.split(';'),
+			res;
+
+		if(cookies.length == 0){
+			return 'No cookies found in document';
+		}
+
+		res = cookies.length.toString() + ' cookie(s) found in document:\n';
+
+		for(var i = 0; i < cookies.length; i++) {
+			var cookie = cookies[i];
+			res += cookie + '\n';
+		}
+
+		return res;
 	}
 }
+
+fx.CookieUtils.EXPIRES = 'expires=Thu, 01 Jan 1970 00:00:00 GMT';
