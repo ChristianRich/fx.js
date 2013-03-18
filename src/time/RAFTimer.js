@@ -186,5 +186,3 @@ fx.RAFTimer.prototype = {
         return res;
     }
 }
-
-=
