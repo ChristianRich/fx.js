@@ -55,7 +55,7 @@ fx.CookieUtils = {
 	/**
 	 * Deletes all cookies
 	 */
-	flash : function(){
+	flush : function(){
 		var cookies = document.cookie.split(';');
 
 		for(var i = 0; i < cookies.length; i++) {
