@@ -93,7 +93,7 @@ fx.Queue.prototype = {
 	* Tests if this stack is empty.
 	* @return {Boolean}
 	*/
-	empty : function(){
+	isEmpty : function(){
 		return !!this._queue.length;
 	},
 
