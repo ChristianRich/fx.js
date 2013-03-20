@@ -1,5 +1,15 @@
-fx.Range = function(start, end){    
-    this.start = start || 0;
+/**
+ * Determines a range between two numerical values
+ * @param start
+ * @param end
+ */
+fx.Range = function(start, end){
+
+	if(!(this instanceof arguments.callee)){
+		throw new Error('Constructor called as a function.');
+	}
+
+	this.start = start || 0;
     this.end = end || 1;
 }
 

@@ -11,7 +11,7 @@ fx.Stack = function(capacity){
 
     this._capacity = capacity || Number.MAX_VALUE;
     this._queue = [];
-}
+};
 
 fx.Stack.prototype = {
 
@@ -109,4 +109,4 @@ fx.Stack.prototype = {
 
 		return res;
 	}
-}
+};

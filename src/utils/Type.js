@@ -6,13 +6,13 @@ fx.Type = {
 
     /**
     * Returns a String representation of the supplied object's data type
-    * @param  {Object} 
+    * @param  {Object} o
     * @return {String} Type as String
     */
     get : function(o){
 
         // Adressing IE 7+8 bug: With below statemtent Undefined and Null returns '[object Object]' when in fact we want '[object Undefined]' and '[object Null]'.
-        if(o === undefined){
+        if(!o || o == undefined){
             return '[object Undefined]';
         } else if(o === null){
             return '[object Null]';

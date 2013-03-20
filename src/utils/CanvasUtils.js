@@ -71,7 +71,7 @@ fx.CanvasUtils = {
 
 	/**
 	* Extracts the current frame of a video and returns an HTMLImageElement (operation will fail if video is tainted with cross domain data)
-	* @param  {HTMLVideoElement} 	The video from where the image should be extracted
+	* @param  {HTMLVideoElement} 	video from where the image should be extracted
 	* @param  {number=} x 			Optional
 	* @param  {number=} y 			Optional
 	* @param  {number=} width 		Optional
@@ -84,8 +84,8 @@ fx.CanvasUtils = {
 			throw new TypeError('Not enough arguments');
 		}
 
-		var srcRect = fx.CanvasUtils.getRect(video),
-			destRect = fx.CanvasUtils.getRect(video, x, y, width, height),
+		var srcRect = fx.CanvasUtils._getRect(video),
+			destRect = fx.CanvasUtils._getRect(video, x, y, width, height),
 			canvas = fx.CanvasUtils.getCanvas(srcRect.width, srcRect.height),
 			ctx = canvas.getContext('2d'),
 			resultImage;
@@ -119,8 +119,8 @@ fx.CanvasUtils = {
 
 	/**
 	* Paints a HTML5ImageElement onto a HTML5CanvasElement
-	* @param  {HTMLCanvasElement} 	Canvas
-	* @param  {HTMLImageElement} 	Image
+	* @param  {HTMLCanvasElement} 	canvas
+	* @param  {HTMLImageElement} 	image
 	* @param  {number=} x 			Optional
 	* @param  {number=} y 			Optional
 	* @param  {number=} width 		Optional
@@ -133,13 +133,13 @@ fx.CanvasUtils = {
 			throw new TypeError('Not enough arguments');
 		}
 
-		var rect = fx.CanvasUtils.getRect(null, x, y, width, height);
+		var rect = fx.CanvasUtils._getRect(null, x, y, width, height);
 		canvas.getContext('2d').drawImage(image, rect.x, rect.y, rect.width, rect.height);
 	},
 
 	/**
 	* Extracts a specified region of a HTMLCanvasElement and returns a base64 encoded string
-	* @param  {HTMLCanvasElement} 	Canvas
+	* @param  {HTMLCanvasElement} 	canvas
 	* @param  {number=} x 			Optional
 	* @param  {number=} y 			Optional
 	* @param  {number=} width 		Optional
@@ -152,8 +152,8 @@ fx.CanvasUtils = {
 			throw new TypeError('Not enough arguments');
 		}
 
-		var srcRect = fx.CanvasUtils.getRect(null, 0, 0, canvas.width, canvas.height),
-			destRect = fx.CanvasUtils.getRect(canvas, x, y, width, height);
+		var srcRect = fx.CanvasUtils._getRect(null, 0, 0, canvas.width, canvas.height),
+			destRect = fx.CanvasUtils._getRect(canvas, x, y, width, height);
 
 		if(!srcRect.equals(destRect)){
 			canvas = fx.CanvasUtils.crop(canvas, x, y, width, height);
@@ -200,7 +200,7 @@ fx.CanvasUtils = {
 
 	/**
 	* Returns a cloned canvas cropped to specified dimensions
-	* @param  {HTMLCanvasElement}  	Canvas
+	* @param  {HTMLCanvasElement}  	canvas
 	* @param  {number=} x 			Optional
 	* @param  {number=} y  			Optional
 	* @param  {number=} width 		Optional
@@ -268,7 +268,7 @@ fx.CanvasUtils = {
 
 	/**
 	* Returns the imageData from a HTMLCanvasElement as per specified by the supplied clip rect (clip rect is optional)
-	* @param  {HTMLCanvasElement} 	Canvas
+	* @param  {HTMLCanvasElement} 	canvas
 	* @param  {number=} x 			Optional
 	* @param  {number=} y 			Optional
 	* @param  {number=} width 		Optional
@@ -409,7 +409,7 @@ fx.CanvasUtils = {
 	* @param  {number=} height 	Optional
 	* @return {Object}
 	*/
-	getRect : function(src, x, y, width, height){
+	_getRect : function(src, x, y, width, height){
 
 		if(!src){
 			src = {};

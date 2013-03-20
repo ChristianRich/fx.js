@@ -14,7 +14,7 @@ fx.Line = function(a, b){
     }
 
     this.reset(a, b);
-}
+};
 
 fx.Line.prototype = {
 
@@ -118,7 +118,7 @@ fx.Line.prototype = {
 	toString : function(){
 		return '[Line] a: ' + this.a.x + ', ' + this.a.y + ',  b: ' + this.b.x + ', ' + this.b.y + ', length: ' + this.getLength().toFixed(2);
 	}
-}
+};
 
 /**
 * Returns a new zero based Line
@@ -126,7 +126,7 @@ fx.Line.prototype = {
 */
 fx.Line.Zero = function(){
     return new fx.Line();
-}
+};
 
 /**
 * Returns true if Line qualifies as a fx.Line object
@@ -134,7 +134,7 @@ fx.Line.Zero = function(){
 */
 fx.Line.IsLine = function(o){
 	return o instanceof fx.Line;
-}
+};
 
 fx.Line.PARALLEL = 'parallel';
 fx.Line.COINCIDENT = 'coincicent';

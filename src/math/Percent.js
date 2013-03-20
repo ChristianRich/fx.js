@@ -49,7 +49,7 @@ fx.Percent = {
     * 
     * @param  {number} min (as decimal)
     * @param  {number} max (as decimal)
-    * @param  {number} currentDecimal (as decimal)
+    * @param  {number} current (as decimal)
     * @return {number} result (as percent)
     */
     rangeToPercent : function(min, max, current){

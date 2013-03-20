@@ -12,241 +12,225 @@ fx.Rectangle = function(x, y, width, height){
     this.reset(x, y, width, height);
     this.regX = 0;
     this.regY = 0;
-}
+};
 
 fx.Rectangle.prototype = {
 
-    /**
-    * Reset's this rectangle's intrinsic properties
-    * @param  {Number} x
-    * @param  {Number} y
-    * @param  {Number} width
-    * @param  {Number} height
-    * @return {fx.Rectangle}
-    */
-    reset : function(x, y, width, height){
-        this.x = x || 0;
-        this.y = y || 0;
-        this.width = width || 0;
-        this.height = height || 0;
-        return this;
-    },
-    
-    /**
-    * Returns the top left corner
-    * @return {fx.Point} A Point object containing the x and y coordinate
-    */
-    getTopLeft : function(){
-        return new fx.Point(this.getLeft(), this.getTop());
-    },
+	/**
+	 * Reset's this rectangle's intrinsic properties
+	 * @param  {Number} x
+	 * @param  {Number} y
+	 * @param  {Number} width
+	 * @param  {Number} height
+	 * @return {fx.Rectangle}
+	 */
+	reset: function (x, y, width, height) {
+		this.x = x || 0;
+		this.y = y || 0;
+		this.width = width || 0;
+		this.height = height || 0;
+		return this;
+	},
 
-    /**
-    * Returns the top right corner
-    * @return {fx.Point} A Point object containing the x and y coordinate
-    */
-    getTopRight : function(){
-        return new fx.Point(this.getRight(), this.getTop());
-    },
+	/**
+	 * Returns the top left corner
+	 * @return {fx.Point} A Point object containing the x and y coordinate
+	 */
+	getTopLeft: function () {
+		return new fx.Point(this.getLeft(), this.getTop());
+	},
 
-    /**
-    * Returns the bottom left corner
-    * @return {fx.Point} A Point object containing the x and y coordinate
-    */
-    getBottomLeft : function(){
-        return new fx.Point(this.getLeft(), this.getBottom());
-    },
+	/**
+	 * Returns the top right corner
+	 * @return {fx.Point} A Point object containing the x and y coordinate
+	 */
+	getTopRight: function () {
+		return new fx.Point(this.getRight(), this.getTop());
+	},
 
-    /**
-    * Returns the bottom right corner
-    * @return {fx.Point} A Point object containing the x and y coordinate
-    */
-    getBottomRight : function(){
-        return new fx.Point(this.getRight(), this.getBottom());
-    },
+	/**
+	 * Returns the bottom left corner
+	 * @return {fx.Point} A Point object containing the x and y coordinate
+	 */
+	getBottomLeft: function () {
+		return new fx.Point(this.getLeft(), this.getBottom());
+	},
 
-    /**
-    * Returns the center point
-    * @return {fx.Point} A Point object containing the x and y coordinate
-    */
-    getCenter : function(){
-        return new fx.Point(this.width / 2, this.height / 2);
-    },
+	/**
+	 * Returns the bottom right corner
+	 * @return {fx.Point} A Point object containing the x and y coordinate
+	 */
+	getBottomRight: function () {
+		return new fx.Point(this.getRight(), this.getBottom());
+	},
 
-    /**
-    * The y coordinate of the top-left corner
-    * @return {Number}
-    */
-    getTop: function(){
-        return this.y;
-    },
+	/**
+	 * Returns the center point
+	 * @return {fx.Point} A Point object containing the x and y coordinate
+	 */
+	getCenter: function () {
+		return new fx.Point(this.width / 2, this.height / 2);
+	},
 
-    /**
-    * The sum of the y and height properties.
-    * @return {Number}
-    */
-    getBottom : function(){
-        return this.y + this.height;
-    },
+	/**
+	 * The y coordinate of the top-left corner
+	 * @return {Number}
+	 */
+	getTop: function () {
+		return this.y;
+	},
 
-    /**
-    * The x coordinate of the top-left corner
-    * @return {Number}
-    */
-    getLeft: function(){
-        return this.x;
-    },
+	/**
+	 * The sum of the y and height properties.
+	 * @return {Number}
+	 */
+	getBottom: function () {
+		return this.y + this.height;
+	},
 
-    /**
-    * The sum of the x and width
-    * @return {Number}
-    */
-    getRight: function(){
-        return this.x + this.width;
-    },
+	/**
+	 * The x coordinate of the top-left corner
+	 * @return {Number}
+	 */
+	getLeft: function () {
+		return this.x;
+	},
 
-    /** 
-    * Bitwise round. Faster than Math.round()
-    * @return {fx.Rectangle}
-    */
-    round : function(){
-        this.x = this.x | 0;
-        this.y = this.y| 0;  
-        this.width = this.width | 0;
-        this.height = this.height | 0;
-        return this;
-    },
+	/**
+	 * The sum of the x and width
+	 * @return {Number}
+	 */
+	getRight: function () {
+		return this.x + this.width;
+	},
 
-    /**
-    * Increases the size of the Rectangle object by the specified amounts, in pixels.
-    * The center point of the Rectangle object stays the same, and its size increases to the left and right by the dx value, and to the top and the bottom by the dy value.
-    * @param  [Number} dx
-    * @param  {Number} dy
-    * @return {void}
-    */
-    inflate : function(dx, dy){
-        this.x -= dx;
-        this.width += 2 * dx;
-        this.y -= dy;
-        this.height += 2 * dy;
-    },
+	/**
+	 * Bitwise round. Faster than Math.round()
+	 * @return {fx.Rectangle}
+	 */
+	round: function () {
+		this.x = this.x | 0;
+		this.y = this.y | 0;
+		this.width = this.width | 0;
+		this.height = this.height | 0;
+		return this;
+	},
 
-    /** 
-    * Scale a rectangle
-    * @return {fx.Rectangle}
-    */
-    scale : function(scalar){
-        this.reset(this.x, this.y, this.width * scalar, this.height * scalar);
-        return this;
-    },
+	/**
+	 * Increases the size of the Rectangle object by the specified amounts, in pixels.
+	 * The center point of the Rectangle object stays the same, and its size increases to the left and right by the dx value, and to the top and the bottom by the dy value.
+	 * @param  {number} dx
+	 * @param  {number} dy
+	 * @return {void}
+	 */
+	inflate: function (dx, dy) {
+		this.x -= dx;
+		this.width += 2 * dx;
+		this.y -= dy;
+		this.height += 2 * dy;
+	},
 
-    /**
-    * Intersection as Boolean
-    * @return {Boolean}
-    */
-    intersects : function(rectangle){
-        return !!this.intersection(rectangle);
-    },
+	/**
+	 * Scale a rectangle
+	 * @return {fx.Rectangle}
+	 */
+	scale: function (scalar) {
+		this.reset(this.x, this.y, this.width * scalar, this.height * scalar);
+		return this;
+	},
 
-    /**
-    * Returns the intersecting part of two Rectangles as a new Rectangle
-    * @return {fx.Rectangle | null}
-    */
-    intersection : function(rect){
-        var tx = this.x - this.regX;
-        var ty = this.y - this.regY;
-        var tw = this.width;
-        var th = this.height;
+	/**
+	 * Intersection as Boolean
+	 * @return {Boolean}
+	 */
+	intersects: function (rectangle) {
+		return !!this.intersection(rectangle);
+	},
 
-        var rx = rect.x - rect.regX;
-        var ry = rect.y - rect.regY;
-        var rw = rect.width;
-        var rh = rect.height;
+	/**
+	 * Returns the intersecting part of two Rectangles as a new Rectangle
+	 * @return {fx.Rectangle | null}
+	 */
+	intersection: function (rect) {
+		var tx = this.x - this.regX;
+		var ty = this.y - this.regY;
+		var tw = this.width;
+		var th = this.height;
 
-        var x0 = Math.max(tx, rx);
-        var x1 = Math.min(tx + tw, rx + rw);
+		var rx = rect.x - rect.regX;
+		var ry = rect.y - rect.regY;
+		var rw = rect.width;
+		var rh = rect.height;
 
-        if(x0 <= x1) {
-            var y0 = Math.max(ty, ry);
-            var y1 = Math.min(ty + th, ry + rh);
+		var x0 = Math.max(tx, rx);
+		var x1 = Math.min(tx + tw, rx + rw);
 
-            if(y0 <= y1) {
-                return new fx.Rectangle(x0, y0, x1 - x0, y1 - y0);
-            }
-        }
+		if (x0 <= x1) {
+			var y0 = Math.max(ty, ry);
+			var y1 = Math.min(ty + th, ry + rh);
 
-        return null;
-    },
+			if (y0 <= y1) {
+				return new fx.Rectangle(x0, y0, x1 - x0, y1 - y0);
+			}
+		}
 
-    /**
-    * Translates a point's relative position from this Rectangle to another Rectangle.
-    * @return {fx.Point}
-    */
-    translatePoint : function(point, rect){
-        return new fx.Point(
-            point.x * (rect.width / this.width),
-            point.y * (rect.height / this.height)
-        );
-    },
+		return null;
+	},
 
-    /**
-    * Determines if a point falls within the boundaries of the Rectangle
-    * @return {fx.Point}
-    */
-    containsPoint : function(point){
-        return !!(!(
-            point.x < this.x ||
-            point.x > this.x + this.width ||
-            point.y < this.y ||
-            point.y > this.y + this.height
-        ));
-    },
+	/**
+	 * Translates a point's relative position from this Rectangle to another Rectangle.
+	 * @return {fx.Point}
+	 */
+	translatePoint: function (point, rect) {
+		return new fx.Point(
+			point.x * (rect.width / this.width),
+			point.y * (rect.height / this.height)
+		);
+	},
 
-    /**
-    * Returns the center Point of the Rectangle (relative to it self)
-    * @return {fx.Point}
-    */
-    getCenter : function(){
-        return new fx.Point(
-            this.width / 2,
-            this.height / 2
-        );
-    },
+	/**
+	 * Determines if a point falls within the boundaries of the Rectangle
+	 * @return {boolean}
+	 */
+	containsPoint: function (point) {
+		return !(point.x < this.x || point.x > this.x + this.width || point.y < this.y || point.y > this.y + this.height);
+	},
 
-    /**
-    * Debug draw
-    * @return {void}
-    */
-    draw : function(ctx, fill){
-        var fill = fill || false;
+	/**
+	 * Debug draw
+	 * @return {void}
+	 */
+	draw: function (ctx, fill) {
+		var fill = fill || false;
 
-        ctx.save();
-        ctx.translate(this.x, this.y);
+		ctx.save();
+		ctx.translate(this.x, this.y);
 
-        if(fill){
-            ctx.fillRect(-this.regX, -this.regY, this.width, this.height);
-        } else{
-            ctx.strokeRect(-this.regX, -this.regY, this.width, this.height);
-        }
-        
-        ctx.restore();
-    },
+		if (fill) {
+			ctx.fillRect(-this.regX, -this.regY, this.width, this.height);
+		} else {
+			ctx.strokeRect(-this.regX, -this.regY, this.width, this.height);
+		}
 
-    /**
-    * Returns a clone of this Rectangle preserving it's intrinsic properties.
-    * @return {String}
-    */
-    clone : function(){
-        return new fx.Rectangle(this.x, this.y, this.width, this.height);
-    },
+		ctx.restore();
+	},
 
-    /**
-    * Returns a String representation of a Rectangle
-    * @return {String}
-    */
-    toString : function(){
-        return '[Rectangle] x: ' + this.x + ', y: ' + this.y + ', width: ' + this.width + ', height: ' + this.height;
-    }
-}
+	/**
+	 * Returns a clone of this Rectangle preserving it's intrinsic properties.
+	 * @return {String}
+	 */
+	clone: function () {
+		return new fx.Rectangle(this.x, this.y, this.width, this.height);
+	},
+
+	/**
+	 * Returns a String representation of a Rectangle
+	 * @return {String}
+	 */
+	toString: function () {
+		return '[Rectangle] x: ' + this.x + ', y: ' + this.y + ', width: ' + this.width + ', height: ' + this.height;
+	}
+};
 
 /**
 * Translates a point's relative position from this Rectangle to another Rectangle (aka mapping)
@@ -257,7 +241,7 @@ fx.Rectangle.TranslatePoint = function(point, sourceRect, destRect){
         point.x * (destRect.width / sourceRect.width),
         point.y * (destRect.height / sourceRect.height)
     )
-}
+};
 
 /**
 * Returns a new zero based Rectangle
@@ -265,7 +249,7 @@ fx.Rectangle.TranslatePoint = function(point, sourceRect, destRect){
 */
 fx.Rectangle.Zero = function(){
     return new fx.Rectangle();
-}
+};
 
 /**
 * Return true if object qualifies as a Rectangle
@@ -273,4 +257,4 @@ fx.Rectangle.Zero = function(){
 */
 fx.Rectangle.IsRectangle = function(o){
     return o instanceof fx.Rectangle;
-}
+};

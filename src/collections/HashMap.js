@@ -13,7 +13,7 @@ fx.HashMap = function(){
 	* To avoid the expensive 'for..in' loop when returning random elements an Array is used to store the keys.
 	*/
     this.keys = [];
-}
+};
 
 fx.HashMap.prototype = {
 	
@@ -130,4 +130,4 @@ fx.HashMap.prototype = {
 	toString : function(){
 		return '[HashMap] size: ' + this.getSize();
 	}
-}
+};

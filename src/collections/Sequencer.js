@@ -30,7 +30,7 @@ fx.Sequencer = function(size, start){
 	}
 
 	return this;
-}
+};
 
 fx.Sequencer.prototype = {
 
@@ -67,4 +67,4 @@ fx.Sequencer.prototype = {
 	toString : function(){
 		return '[Sequencer] size: ' + this.size;
 	}
-}
+};

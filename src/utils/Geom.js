@@ -92,7 +92,7 @@ fx.Geom = {
 	* @return {Object} An object containing the interpolated x and y coordinate
 	*/
 	lerpPoints : function(point1, point2, fraction) { 
-		return this.getPoint(
+		return new fx.Point(
 			point1.x + fraction * (point2.x - point1.x), 
 			point1.y + fraction * (point2.y - point1.y)
 		)
@@ -119,7 +119,7 @@ fx.Geom = {
 	* @return {Object} An object containing the mapped point (x and y)
 	*/
 	mapPoint : function(point, factor) {
-		return this.getPoint(
+		return new fx.Point(
 			this.map(point.x, factor), 
 			this.map(point.y, factor)
 		);
@@ -171,9 +171,9 @@ fx.Geom = {
 
 	/**
 	* Rotates a point around another point by the specified angle
-	* @param {Object} point: The Point to rotate
-	* @param {Object} centerPoint: The center point to rotate the point around
-	* @param {number} angle: The angle (in degrees) to rotate this point
+	* @param {Object} point The Point to rotate
+	* @param {Object} centerPoint The center point to rotate the point around
+	* @param {number} angle The angle (in degrees) to rotate this point
 	* @return {Object} 
 	*/
 	rotatePoint : function(point, centerPoint, angle) {
@@ -202,12 +202,13 @@ fx.Geom = {
 
 	/**
 	* Returns the nearest point on a circle's circumference from any given point (either inside or outside the circle)
-	* @param  {number} x: x position
-	* @param  {number} y: y position
-	* @param  {number} r: radius
+	* @param  {number} x position
+	* @param  {number} y position
+	* @param  {number} r radius
 	* @return {Object}
 	*/
 	getCircumferencePoint : function(x, y, r) {
+
 		// Offsetting the coordinate system to the center of the circle
 		x -= r;
 		y -= r;

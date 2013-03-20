@@ -10,7 +10,11 @@
 */
 fx.RAFTimer = function(duration, notify, useFrames){
 
-    /**
+	if(!(this instanceof arguments.callee)){
+		throw new Error('Constructor called as a function.');
+	}
+
+	/**
     * Validating args
     */
     if(!window.requestAnimationFrame || !window.cancelAnimationFrame){
@@ -24,20 +28,6 @@ fx.RAFTimer = function(duration, notify, useFrames){
     }
 
 	this.usePresicionTimer = !!window.performance && !!window.performance.now;
-
-	/**
-	* High precision timer
-	* http://updates.html5rocks.com/2012/08/When-milliseconds-are-not-enough-performance-now
-	*/
-	window.performance = window.performance || {};
-	performance.now = (function() {
-		return performance.now    ||
-			performance.mozNow    ||
-			performance.msNow     ||
-			performance.oNow      ||
-			performance.webkitNow ||
-			function() { return new Date().getTime(); };
-	})();
 
     this.duration = duration;
     this.notify = notify;

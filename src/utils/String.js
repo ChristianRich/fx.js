@@ -91,7 +91,7 @@ fx.String = {
     * @param string string: string to test
     * @param string matchExp: expr to test agains string; * and spaces are interpreted as reg ex (.*?)  
     */
-    catches: function(string, matchExp, ignoreCase) {  /*Boolean*/
+    catches: function(string, matchExp, ignoreCase) {
         var ignoreCase = arguments.length >= 3 ? ignoreCase : false;
         matchExp = this.trim(matchExp);
         matchExp = matchExp.replace(/\s+/, '*');
@@ -112,9 +112,9 @@ fx.String = {
             s = Math.floor(sec % 3600 % 60);
 
         return(
-            h == 0 ? '' : (h < 10 ? '0' + h.toString() + ':' : h.toString() + ':')) +
-            (m < 10 ? '0' + m.toString() : m.toString()) + ':' +
-            (s < 10 ? '0' + s.toString() : s.toString()
+			h == 0 ? '' : (h < 10 ? '0' + h.toString() + ':' : h.toString() + ':')) +
+			(m < 10 ? '0' + m.toString() : m.toString()) + ':' +
+			(s < 10 ? '0' + s.toString() : s.toString()
         )
     }
 }

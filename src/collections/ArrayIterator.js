@@ -1,6 +1,6 @@
 /**
 * Java style Array iterator featuring stack peek, shuffle, reverse and null iterator. (c) Christian Schlosrich 2012.
-* @param {Array} The data to be iterated over (omitting this arg results in a null iterator)
+* @param {Array} data to be iterated over (omitting this arg results in a null iterator)
 */
 fx.ArrayIterator = function(data){
 
@@ -17,7 +17,7 @@ fx.ArrayIterator = function(data){
 
 	this.data = data || [];
 	this.index = -1;
-}
+};
 
 fx.ArrayIterator.prototype = {
 
@@ -132,7 +132,7 @@ fx.ArrayIterator.prototype = {
 	*/
 	reverse : function(){
 		if(this.isNull()){
-			return;
+			return null;
 		}
 
 		this.data.reverse();
@@ -145,7 +145,7 @@ fx.ArrayIterator.prototype = {
 	*/
 	shuffle : function(){
 		if(this.isNull()){
-			return;
+			return null;
 		}
 
 		var len = this.data.length;
@@ -189,11 +189,11 @@ fx.ArrayIterator.prototype = {
 		res += ' size: ' + this.getSize() + ', index: ' + this.index + ', hasNext: ' + this.hasNext() + ', hasPrevious: ' + this.hasPrevious();
 		return res;
 	}
-}
+};
 
 /**
 * Static clone
 */
 fx.ArrayIterator.Clone = function(itr){
 	return itr.clone();
-}
+};

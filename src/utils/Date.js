@@ -36,7 +36,7 @@ fx.Date = {
 	},
 
 	/**
-	 * Evaluates if date falls between rangeStart and rangeEnd.
+	 * Evaluates if date falls between supplies date range
 	 * @param  {Date}  date
 	 * @param  {Date}  rangeStart
 	 * @param  {Date}  rangeEnd
@@ -48,7 +48,7 @@ fx.Date = {
 
 	/**
 	 * Creates a new Date
-	 * @return {Date} [description]
+	 * @return {Date}
 	 */
 	today: function(){
 		return new Date();	
@@ -56,11 +56,10 @@ fx.Date = {
 
 	/**
 	 * Tomorrow
-	 * @param  {Date} date
 	 * @return {Date} Tomorrow
 	 */
-	tomorrow : function(date){
-		return this.today.setDate(this.today.getDate() + 1);
+	tomorrow : function(){
+		return fx.Date.today().setDate(fx.Date.today().getDate() + 1);
 	},
 
 	/**
@@ -69,7 +68,7 @@ fx.Date = {
 	 * @return {Date} Yesterday
 	 */
 	yesterday : function(date){
-		return this.today.setDate(this.today.getDate() - 1);
+		return fx.Date.today().setDate(fx.Date.today().getDate() - 1);
 	},
 
 	/**

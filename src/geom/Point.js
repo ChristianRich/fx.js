@@ -9,7 +9,7 @@ fx.Point = function(x, y){
     }
 
     this.reset(x, y);
-}
+};
 
 fx.Point.prototype = {
 
@@ -136,24 +136,24 @@ fx.Point.prototype = {
     toString : function(){
         return '[Point] x: ' + this.x + ', y: ' + this.y;
     }
-}
+};
 
 fx.Point.Zero = function(){
     return new fx.Point(0, 0);
-}
+};
 
 fx.Point.DistanceTo = function(point1, point2){
     return point1.distanceTo(point2);
-}
+};
 
 fx.AngleBetween = function(point1, point2){
     return point1.angleBetween(point2);
-}
+};
 
 fx.Point.Interpolate = function(point1, point2, factor){
     return point1.interpolate(point2, factor);
-}
+};
 
 fx.Point.IsPoint = function(o){
     return o instanceof fx.Point;
-}
+};

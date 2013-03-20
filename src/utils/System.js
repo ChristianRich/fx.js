@@ -115,7 +115,11 @@ fx.System = {
         return !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
     },
 
+	getUserMedia : function(){
+		return this.webRTC();
+	},
+
     webAudio : function(){
         return !!('AudioContext' in window || 'webkitAudioContext' in window);
     }
-}
+};

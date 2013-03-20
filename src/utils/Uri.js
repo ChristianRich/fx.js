@@ -7,7 +7,7 @@ fx.Uri = {
     
     /**
     * Returns true if supplied uri is a properly formatted url
-    * @param  {string} uri
+    * @param  {string} s
     * @return {boolean}
     */
     isUrl : function(s){
@@ -28,7 +28,7 @@ fx.Uri = {
     /**
     * Removes the file extension part of a filename (if present)
     * Works for both urls and filenames (like 'www.mydomain.com/index.html' or just 'index.html')
-    * @param  {string} uri
+    * @param  {string} s
     * @return {string}
     */
     stripExtension : function(s){ 
@@ -62,7 +62,7 @@ fx.Uri = {
 
     /**
     * Returns the file name part of a URI including the file extension (if present)
-    * @param  {string} uri
+    * @param  {string} url
     * @return {string} result
     */
     getFileName : function(url){
@@ -94,7 +94,7 @@ fx.Uri = {
     /**
     * Returns an Object containing detailed information about the URI (like protocol, path, host, file, directory, queryKeys and more)
     * Original method written by Steven Levithan (http://blog.stevenlevithan.com/archives/parseuri)
-    * @param  {string | optional} str 
+    * @param  {string=} str
     * @return {Object}
     */
     parse : function(str){
@@ -175,7 +175,7 @@ fx.Uri = {
         var qk = u.queryKey, 
             qs = [];
 
-        for(k in qk) {
+        for(var k in qk) {
 
             if(!qk.hasOwnProperty(k)) {
                 continue;

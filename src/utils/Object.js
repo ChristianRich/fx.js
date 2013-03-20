@@ -7,7 +7,7 @@ fx.Object = {
     /**
         Returns all keys as an Array
     */
-    getKeys : function(o ) {
+    getKeys : function(o) {
         var keys = [];
         for (var i in o) keys.push(i);
         return keys;
@@ -22,7 +22,7 @@ fx.Object = {
         return values;
     },
 
-    /**
+	/**
         Returns the length of an Object
     */
     length : function(o) {
@@ -38,35 +38,11 @@ fx.Object = {
         return this.length(o) === 0;
     },
 
-     /** 
+	/**
         Returns true if supplied object is of type object Object
     */
     isObject : function(o) {
         return Object.prototype.toString.apply(o) === '[object Object]';
-    },
-
-    /**
-        Returns all key / value pairs as a String representation of an object (for debugging purposes)
-    */
-    toString : function(o, name) {
-        var s, val, i = 0;
-        s = (name ? '\'' + name + '\'' : 'Object') + ' contains ' + this.length(o) + ' key/value pairs:\n';
-
-        for(var k in o){
-            if(Object.prototype.toString.apply(o[k]) === '[object Object]'){ // Because [object Object] does not support toString() method and will throw Error in IE
-                if(this.isEmpty(o[k])){
-                    val = 'Empty [object Object]'; 
-                } else{
-                    val = this.getKeys(o[k]);
-                }
-            } else{     
-                val = o[k];
-            }
-            
-            s += '[' + (i++) + '] ' + k + ' : ' + val + '\n';
-        } 
-
-        return s;
     },
 
     /**
@@ -92,7 +68,7 @@ fx.Object = {
         var o = {x: 7, y: 10, b : 500};
         var a = CS.ObjectUtils.toArray(o); // [x, 7, y, 10, b, 500]
     */
-    toArray : function(o) { /*Array*/
+    toArray : function(o) {
         var res = [];
         for (var key in o){
             res.push(key);
@@ -115,15 +91,11 @@ fx.Object = {
     },
 
     /**
-        Clones an object by copying the key / value pairs into a new object.
+        Clones an object by copying the key / value pairs into a new object (shallow clone only)
     */
     clone: function(o) {
         var n = {};
-
-        for(var key in o){
-            n[key] = o[key]; 
-        } 
-
+        for(var key in o) n[key] = o[key];
         return n;
     }
 }

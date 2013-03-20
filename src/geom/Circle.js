@@ -13,7 +13,7 @@ fx.Circle = function(x, y, r){
 	this.reset(x, y, r);
 	this.regX = 0;
 	this.regY = 0;
-}
+};
 
 fx.Circle.prototype = {
 
@@ -26,7 +26,7 @@ fx.Circle.prototype = {
 
 	/**
 	* Test if this circle intersects another circle
-	* @param {fx.Circle} fx.Circle
+	* @param {fx.Circle} circle
 	* @return {boolean} Result as Boolean
 	*/
 	intersectsCircle : function(circle){
@@ -60,18 +60,18 @@ fx.Circle.prototype = {
 	toString : function(){
 		return '[Circle] x: ' + this.x + ', y: ' + this.y + ', r: ' + this.r;
 	}
-}
+};
 
 /**
 * Returns a new zero based Circle
 */
 fx.Circle.Zero = function(){
     return new fx.Circle();
-}
+};
 
 /**
 * Returns true if o is an instance of fx.Circle
 */
 fx.Circle.isCircle = function(o){
     return o instanceof fx.Circle;
-}
+};

@@ -15,7 +15,7 @@ fx.Queue = function(capacity){
 
     this._capacity = capacity || Number.MAX_VALUE;
     this._queue = [];
-}
+};
 
 fx.Queue.prototype = {
 
@@ -62,7 +62,7 @@ fx.Queue.prototype = {
 
 	/**
 	* Returns the 1-based position where an object is on this stack.
-	* @param  {Number} i index
+	* @param  {Number} index
 	* @return {*}
 	*/
 	search : function(index){
@@ -128,4 +128,4 @@ fx.Queue.prototype = {
 
 		return res;
 	}
-}
+};

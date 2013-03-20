@@ -23,6 +23,10 @@
  */
 fx.Timer = function(time, notify){
 
+	if(!(this instanceof arguments.callee)){
+		throw new Error('Constructor called as a function.');
+	}
+
 	if(!window.requestAnimationFrame || !window.cancelAnimationFrame){
 		throw new Error('requestAnimationFrame and cancelAnimationFrame are required for Timer');
 	}

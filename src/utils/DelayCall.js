@@ -9,12 +9,12 @@
 * Anonymous inline style:
 * 
 * new fx.DelayCall(function(){
-*     video.play();
+*     // do something
 * }, 500);
 *
 * @param {Function} 	callback
 * @param {Number}   	time
-* @param {Object}   	optional context to pass to the callback
+* @param {Object=}   	context to pass to the callback
 */
 fx.DelayCall = function(callback, time, context){
 
