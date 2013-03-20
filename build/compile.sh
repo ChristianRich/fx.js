@@ -23,7 +23,7 @@ java -jar compiler.jar \
 --js ../src/time/Oscillator.js \
 --js ../src/time/Timer.js \
 --js ../src/time/Renderer.js \
---js ../src/time/RAFTimer.js \
+--js ../src/time/PrecisionTimer.js \
 --js ../src/utils/CanvasUtils.js \
 --js ../src/utils/CookieUtils.js \
 --js ../src/utils/Date.js \

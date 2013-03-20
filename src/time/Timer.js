@@ -27,10 +27,6 @@ fx.Timer = function(time, notify){
 		throw new Error('Constructor called as a function.');
 	}
 
-	if(!window.requestAnimationFrame || !window.cancelAnimationFrame){
-		throw new Error('requestAnimationFrame and cancelAnimationFrame are required for Timer');
-	}
-
 	if(Object.prototype.toString.apply(time) === '[object Array]'){
 
 		if(time.length !== 2){
@@ -59,23 +55,8 @@ fx.Timer = function(time, notify){
 	this.running = false;
 	this.paused = false;
 	this.context = this;
-	this.usePresicionTimer = !!window.performance.now;
 
 	var self = this;
-
-	/**
-	* High precision timer
-	* http://updates.html5rocks.com/2012/08/When-milliseconds-are-not-enough-performance-now
-	*/
-	window.performance = window.performance || {};
-	performance.now = (function() {
-		return performance.now    ||
-			performance.mozNow    ||
-			performance.msNow     ||
-			performance.oNow      ||
-			performance.webkitNow ||
-			function() { return new Date().getTime(); };
-	})();
 
 	// @private
 	this._getRndInterval = function(){
@@ -196,7 +177,7 @@ fx.Timer.prototype = {
 	toString : function(){
         var r = '[Timer] time: ';
         r += this.isRandomize ? (this.min + '-' + this.max) : this.time;
-        r += ', running: ' + this.running + ', paused: ' + this.paused + ', tick: ' + this.tick + ', usePresicionTimer: ' + this.usePresicionTimer;
+        r += ', running: ' + this.running + ', paused: ' + this.paused + ', tick: ' + this.tick;
         return r;
     }
 }

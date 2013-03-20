@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script type="text/javascript" src="../dist/fx.min.js"></script>
-    <script type="text/javascript" src="../src/time/RAFTimer.js"></script>
+    <script type="text/javascript" src="../src/time/PrecisionTimer.js"></script>
     <script type="text/javascript" src="js/Benchmark.js"></script>
 
     <style>
@@ -24,7 +24,7 @@
     <div id="results"></div>
 
     <p>Timer build on requestAnimationFrame / cancelAnimationFrame.<br>To see it function properly 1) start the timer 2) switch the tab 3) notice the time in the document title as you activate / deactive the tab (or dock the browser window).
-    </p><p>RAF Timer supports both time and frame based timing.</p>
+    </p><p>PrecisionTimer supports time and frame based timing.</p>
     <br>
 
     <p>Controls for Timer 1 (time based)</p>
@@ -66,8 +66,9 @@
         }
 
         function init(){
-            timer1 = new fx.RAFTimer(5000, onTimer, false);
-            timer2 = new fx.RAFTimer(200, onTimer, true);
+            timer1 = new fx.PrecisionTimer(5000, onTimer, false);
+            timer2 = new fx.PrecisionTimer(500, onTimer, true);
+
             var i = setInterval(update, 1000 / 30);
         }
 
