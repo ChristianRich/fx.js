@@ -17,12 +17,12 @@ fx.PrecisionTimer = function(duration, notify, useFrames){
 	if(!(this instanceof arguments.callee)){
 		throw new Error('Constructor called as a function.');
 	} else if(!duration){
-        throw new Error('Missing required parameter \'duration\'.');
-    } else if(isNaN(duration)){
-        throw new Error('Parameter \'duration\' is not a Number.');
-    } else if(!notify){
-        throw new Error('Missing required parameter \'notify\'.');
-    }
+		throw new Error('Missing required parameter \'duration\'.');
+	} else if(isNaN(duration)){
+		throw new Error('Parameter \'duration\' is not a Number.');
+	} else if(!notify){
+		throw new Error('Missing required parameter \'notify\'.');
+	}
 
     this.duration = duration;
     this.notify = notify;
