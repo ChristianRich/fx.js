@@ -39,10 +39,20 @@
 	}
 
     fx.hasClass = function(element, className) {
+
+		if(!element){
+			throw new Error('fx.hasClass: Too few arguments.');
+		}
+
         return element.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
     }
 
     fx.addClass = function(element, className) {
+
+		if(!element || !className){
+			throw new Error('fx.addClass: Too few arguments.');
+		}
+
         if(!fx.hasClass(element, className)){
             className = className.replace(/(^\s+|\s+$)/g, '');
             element.className = element.className.replace(/(^\s+|\s+$)/g, '');
@@ -51,6 +61,11 @@
     }
 
     fx.removeClass = function(element, className) {
+
+		if(!element || !className){
+			throw new Error('fx.removeClass: Too few arguments.');
+		}
+
         if(fx.hasClass(element, className)){
             var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
             element.className = element.className.replace(reg, ' ');
@@ -59,6 +74,11 @@
     }
 
     fx.swapClass = function(element, className, newClassName){
+
+		if(!element || !className || !newClassName){
+			throw new Error('fx.swapClass: Too few arguments.');
+		}
+
         fx.removeClass(element, className);
         fx.addClass(element, newClassName);
     }
