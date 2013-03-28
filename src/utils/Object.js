@@ -22,6 +22,18 @@ fx.Object = {
         return values;
     },
 
+	dump : function(o){
+		var res = '';
+
+		for(var i in o){
+			if(o[i]){
+				res += i + ': ' + o[i] + ', ';
+			}
+		}
+
+		return res;
+	},
+
 	/**
         Returns the length of an Object
     */
@@ -98,4 +110,4 @@ fx.Object = {
         for(var key in o) n[key] = o[key];
         return n;
     }
-}
+};

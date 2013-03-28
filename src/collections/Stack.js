@@ -92,6 +92,13 @@ fx.Stack.prototype = {
 		return res;
 	},
 
+	/**
+	 * Deletes all entries
+	 */
+	flush : function(){
+		this._queue = [];
+	},
+
 	toArray : function(){
 		return this._queue;
 	},

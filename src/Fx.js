@@ -1,7 +1,7 @@
 /**
 * Copyright (c) 2012 Christian Schlosrich.
 *
-* fx is a utility belt covering data structures, math, geometry, time and a large bundle of utilities classed.
+* fx is a tool belt covering data structures, math, geometry, time and a large bundle of utility classed.
 * It was built along the way to solve common and recurring challenges in day to day JavaScript development.
 */
 (function(window){
@@ -29,14 +29,14 @@
         }
 
         return parent;
-    }
+    };
 
     /**
     * Shortcut to fx.Type.get function
     */
     fx.getType = function(arg){
         return fx.Type.get(arg);
-	}
+	};
 
     fx.hasClass = function(element, className) {
 
@@ -45,7 +45,7 @@
 		}
 
         return element.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
-    }
+    };
 
     fx.addClass = function(element, className) {
 
@@ -58,7 +58,7 @@
             element.className = element.className.replace(/(^\s+|\s+$)/g, '');
             element.className += ' ' + className;
         } 
-    }
+    };
 
     fx.removeClass = function(element, className) {
 
@@ -71,7 +71,7 @@
             element.className = element.className.replace(reg, ' ');
             element.className = element.className.replace(/(^\s+|\s+$)/g, '');
         }
-    }
+    };
 
     fx.swapClass = function(element, className, newClassName){
 
@@ -81,7 +81,7 @@
 
         fx.removeClass(element, className);
         fx.addClass(element, newClassName);
-    }
+    };
 
     fx.documentReady = function(win, fn) {
 
@@ -97,7 +97,7 @@
             if (e.type == 'readystatechange' && doc.readyState != 'complete') return;
             (e.type == 'load' ? win : doc)[rem](pre + e.type, init, false);
             if (!done && (done = true)) fn.call(win, e.type || e);
-        }
+        };
 
         var poll = function() {
             try { 
@@ -108,22 +108,27 @@
             }
 
             init('poll');
-        }
+        };
 
-        if (doc.readyState == 'complete'){
-            fn.call(win, 'lazy');
-        } else {
+        if(doc.readyState == 'complete'){
+       		fn.call(win, 'lazy');
+        } else if(doc.createEventObject && root.doScroll) {
+			try {
+				top = !win.frameElement;
+			} catch(e) {
+				//
+			}
 
-            if(doc.createEventObject && root.doScroll) {
-                try { top = !win.frameElement; } catch(e) { }
-                if (top) poll();
-            }
+			if(top){
+				poll();
+			}
+     	}
 
-            doc[add](pre + 'DOMContentLoaded', init, false);
-            doc[add](pre + 'readystatechange', init, false);
-            win[add](pre + 'load', init, false);
-        }
-    }
+		doc[add](pre + 'DOMContentLoaded', init, false);
+		doc[add](pre + 'readystatechange', init, false);
+		win[add](pre + 'load', init, false);
+
+    };
 
     window.fx = fx;
 
