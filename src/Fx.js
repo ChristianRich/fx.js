@@ -44,13 +44,24 @@
 			throw new Error('fx.hasClass: Too few arguments.');
 		}
 
-        return element.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
+		// Using HTML5 classList API - if available
+		if(!!element.classList){
+			return element.classList.contains(className);
+		}
+
+		// Fallback solution
+		return !!element.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
     };
 
     fx.addClass = function(element, className) {
 
 		if(!element || !className){
 			throw new Error('fx.addClass: Too few arguments.');
+		}
+
+		if(!!element.classList){
+			element.classList.add(className);
+			return;
 		}
 
         if(!fx.hasClass(element, className)){
@@ -64,6 +75,11 @@
 
 		if(!element || !className){
 			throw new Error('fx.removeClass: Too few arguments.');
+		}
+
+		if(!!element.classList){
+			element.classList.remove(className);
+			return;
 		}
 
         if(fx.hasClass(element, className)){
