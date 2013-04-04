@@ -1,5 +1,6 @@
 /**
 * Java style Array iterator featuring stack peek, shuffle, reverse and null iterator. (c) Christian Schlosrich 2012.
+* You may create a null iterator and add elements as you go
 * @param {Array} data to be iterated over (omitting this arg results in a null iterator)
 */
 fx.ArrayIterator = function(data){
@@ -9,17 +10,64 @@ fx.ArrayIterator = function(data){
     }
 
 	/**
-	* If data is passed but not of type Array throw an Error (otherwise a null iterator is created)
+	* If a data argument is passed but not of type Array throw an Error
 	*/
     if(data && Object.prototype.toString.apply(data) !== '[object Array]'){
     	throw new TypeError('fx.ArrayIterator expected data type Array for argument \'data\'.');
     }
 
+	// Assign the data or create a null iterator
 	this.data = data || [];
 	this.index = -1;
 };
 
 fx.ArrayIterator.prototype = {
+
+	/**
+	 * Adds an element to the end of the iterator
+	 * @param o
+	 */
+	push : function(o){
+		this.data.push(o);
+	},
+
+	/**
+	 * Adds an element to the given index of the iterator. Throws an exception if the index exceeds the current length
+	 * @param o
+	 * @param index
+	 */
+	insertAt : function(o, index){
+
+		// Throwing an error if index exceeds current data length.
+		// This is strictly not necessary but for an iterator it doesn't seem right to have 'holes' in the data
+		if(index > this.data.length){
+			throw new Error('Out of range ' + index);
+		}
+
+		this.data[index] = o;
+	},
+
+	/**
+	 * Adds an element to the beginning of the iterator
+	 * @param o
+	 */
+	unshift : function(o){
+		this.data.unshift(o);
+	},
+
+	/**
+	 * Removes the first element of the iteratior and returns that element
+	 */
+	shift : function(){
+		return this.data.shift();
+	},
+
+	/**
+	 * Removes the first element of the iterator and returns that element
+	 */
+	pop : function(){
+		return this.data.pop();
+	},
 
 	/**
 	* Returns the next element (if any)
@@ -43,6 +91,32 @@ fx.ArrayIterator.prototype = {
 		}
 
 		return null;
+	},
+
+	/**
+	 * Returns the first element
+	 * @returns {null}
+	 */
+	first : function(){
+		if(this.isNull()){
+			return null;
+		}
+
+		this.reset();
+		return this.next();
+	},
+
+	/**
+	 * Returns the last element
+	 * @returns {null}
+	 */
+	last : function(){
+		if(this.isNull()){
+			return null;
+		}
+
+		this.index = this.getSize() - 1;
+		return this.data[this.index];
 	},
 
 	/**
@@ -166,7 +240,12 @@ fx.ArrayIterator.prototype = {
 	* @return {String}
 	*/
 	dump : function(){
-		var res = this.toString() + ' contains:\n';
+
+		if(this.isNull()){
+			return this.toString();
+		}
+
+		var res = this.toString() + '\n';
 
 		for(var i = 0; i < this.data.length; i++){
 			res += '\n' + this.data[i];
