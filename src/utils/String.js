@@ -44,8 +44,7 @@ fx.String = {
     },
 
     toTitleCase: function(string) {
-        if (this.isEmpty(string)) return string;
-        var result = string.substring(0, 1).toUpperCase()
+        var result = string.substring(0, 1).toUpperCase();
         if (string.length > 1) result = result + string.substring(1);
         return result;
     },
@@ -57,8 +56,6 @@ fx.String = {
     * @return {String} 
     */
     formatNumber : function(nStr){
-
-        // Better safe the sorry
         nStr = nStr.toString();
         
         var x = nStr.split('.'),
