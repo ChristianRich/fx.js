@@ -34,9 +34,8 @@ fx.String = {
         return haystack && haystack.indexOf(needle) != -1;
     },
 
-    removeWhitespace: function(string) {
-        if (this.isEmpty(string)) return string;
-        return string.replace(/\s/g, '');
+    removeWhitespace: function(str) {
+        return str.replace(/\s/g, '');
     },
 
     insertAt: function(string, stringToInsert, index) {
@@ -50,7 +49,7 @@ fx.String = {
     },
 
     /**
-    * Formats a number by adding a comma in the right plac
+    * Formats a number by adding a comma in the right place
     * Example: 1000 becomes 1,000 and 10000 becomes 10,000.
     * @param  {String} nStr
     * @return {String} 
@@ -72,12 +71,12 @@ fx.String = {
 
     /**
     * Appends a noCache query string to an URL
-    * @param  {String} url
-    * @param  {boolean} temporarelyBypass Option to temporarely bypass the cache buster (easier to set a flag that to remove the function call)
-    * @return {String} The cache busted URL
+    * @param  {String} url		The url to bust
+    * @param  {boolean} bypass	bypass the cache buster (easier to set a flag that to remove the function call)
+    * @return {String} 			The cache busted URL
     */
-    cacheBuster : function(url, temporarelyBypass){
-        if(temporarelyBypass){
+    cacheBuster : function(url, bypass){
+        if(bypass){
             return url; 
         } else{
             return url + '?noCache=' + Math.round(Math.random() * new Date().getMilliseconds() * 100000);
@@ -99,7 +98,7 @@ fx.String = {
     },
 
     /**
-    * Format seconds time to readable time code
+    * Format seconds time to readable time code. 60 seconds would return 00:60
     * @param {number} sec
     * @return {string}
     */
