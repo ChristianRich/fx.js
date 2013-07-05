@@ -59,18 +59,16 @@ fx.CookieUtils = {
             throw new Error('Invalid argument passed to fx.CookieUtils.setJSON(). Object expected.');
         }
 
-        var jsonStr;
+        var s;
 
         try{
-            jsonStr = JSON.stringify(obj);
+            s =  JSON.stringify(obj);
         } catch(e){
             throw new Error('fx.CookieUtils.setJSON(): parse error');
         }
 
-        this.set(name, jsonStr);
-        return true;
+        this.set(name, s);
     },
-
 	/**
 	 * Returns true if the cookie exists
 	 * @param name
@@ -108,8 +106,6 @@ fx.CookieUtils = {
 
 			document.cookie = (name + '=;' + fx.CookieUtils.EXPIRES).toString();
 		}
-
-        return true;
 	},
 
 	/**
