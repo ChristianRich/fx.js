@@ -32,10 +32,8 @@
 
 			benchmark.assert(fx.CookieUtils.has('hello') == false, 'deleted cookie');
 
-            //benchmark.assert(fx.CookieUtils.setJSON('hello') == e, 'deleted cookie');
-
-            benchmark.assert( fx.CookieUtils.setJSON('my_JSON_cookie', o) == true, 'set JSON cookie', JSON.stringify(o));
-            benchmark.assert( fx.CookieUtils.getJSON('my_JSON_cookie', o), 'get JSON cookie', JSON.stringify( fx.CookieUtils.getJSON('my_JSON_cookie', o)) );
+            benchmark.assert( typeof fx.CookieUtils.setJSON('my_JSON_cookie', o) == 'string', 'set JSON cookie', JSON.stringify(o));
+            benchmark.assert( typeof fx.CookieUtils.getJSON('my_JSON_cookie') == 'object', 'get JSON cookie', JSON.stringify( fx.CookieUtils.getJSON('my_JSON_cookie')) );
 
             benchmark.assert( fx.CookieUtils.dump(), 'dump cookies to console');
 

@@ -7,9 +7,7 @@ fx.CookieUtils = {
 	 * @returns {string}
 	 */
 	set : function(name, value){
-		var cookie = this.trim(name) + '=' + this.trim(value.toString());
-		document.cookie = cookie;
-		return cookie;
+        return document.cookie = this.trim(name) + '=' + this.trim(value.toString());
 	},
 
 	/**
@@ -19,7 +17,9 @@ fx.CookieUtils = {
 	 * @returns {*}
 	 */
 	get : function(name, asBoolean){
-		var query = document.cookie.match(this.trim(name) + '=(.*?)(;|$)');
+
+        var regExp = new RegExp(this.trim(name) + '=(.*?)(;|$)'),
+            query = document.cookie.match(regExp);
 
 		if(query){
 			return asBoolean ? this.toBool(query[1]) : query[1];
@@ -34,20 +34,20 @@ fx.CookieUtils = {
      * @param name
      * @returns {Object | null}
      */
-    getJSON : function(name){
+    getJSON : function(name, asBoolean){
 
         if(typeof name !== 'string'){
             throw new Error('Invalid argument passed to fx.CookieUtils.getJSON(). String expected.');
         }
 
-        var cookie = this.get(name);
+        var cookie = this.get(name, false);
 
         if(!cookie){
             return null;
         }
 
         try{
-            return JSON.parse(cookie);
+            return asBoolean ? this.toBool(JSON.parse(cookie)) : JSON.parse(cookie);
         } catch(e){
             return null;
         }
@@ -59,15 +59,13 @@ fx.CookieUtils = {
             throw new Error('Invalid argument passed to fx.CookieUtils.setJSON(). Object expected.');
         }
 
-        var s;
-
         try{
-            s =  JSON.stringify(obj);
+            var jsonValue = JSON.stringify(obj);
         } catch(e){
             throw new Error('fx.CookieUtils.setJSON(): parse error');
         }
 
-        this.set(name, s);
+        return this.set(name, jsonValue);
     },
 	/**
 	 * Returns true if the cookie exists
@@ -75,7 +73,7 @@ fx.CookieUtils = {
 	 * @returns {boolean}
 	 */
 	has : function(name){
-		return !!this.get(this.trim(name));
+		return !!this.get(this.trim(name), false);
 	},
 
 	/**
@@ -88,8 +86,7 @@ fx.CookieUtils = {
 			return false;
 		}
 
-		var n = this.trim(name);
-		document.cookie = n += '=;' + fx.CookieUtils.EXPIRES;
+		document.cookie = (this.trim(name) + '=;' + fx.CookieUtils.EXPIRES);
 		return true;
 	},
 
@@ -106,6 +103,8 @@ fx.CookieUtils = {
 
 			document.cookie = (name + '=;' + fx.CookieUtils.EXPIRES).toString();
 		}
+
+        return true;
 	},
 
 	/**
