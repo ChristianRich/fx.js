@@ -117,4 +117,4 @@ fx.String = {
 			(s < 10 ? '0' + s.toString() : s.toString()
         )
     }
-}
+};
