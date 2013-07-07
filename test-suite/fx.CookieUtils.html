@@ -6,6 +6,7 @@
   	<meta name="apple-mobile-web-app-capable" content="yes">
   	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script type="text/javascript" src="../dist/fx.min.js"></script>
+    <script type="text/javascript" src="../src/utils/CookieUtils.js"></script>
 	<script type="text/javascript" src="js/Benchmark.js"></script>
 </head> 
 <body>
@@ -14,15 +15,31 @@
 
 	<script>
 
+        var o = {};
+        o.map = {};
+        o.map.lat = -33.888411125717724;
+        o.map.lng = 151.22803487841793;
+        o.map.zoom = 13;
+
 		function runTests(){
-			benchmark.assert(fx.CookieUtils.set('hello', 'world') == 'hello=world', 'set cookie');
+            benchmark.assert(fx.CookieUtils.flush() == true, 'flush cookies');
+            benchmark.assert(fx.CookieUtils.set('hello', 'world') == 'hello=world', 'set cookie');
 			benchmark.assert(fx.CookieUtils.has('hello'), 'has cookie');
 			benchmark.assert(fx.CookieUtils.get('hello') == 'world' , 'get cookie');
 
 			// Deleting the cookie
-			fx.CookieUtils.delete('hello')
+			fx.CookieUtils.delete('hello');
 
 			benchmark.assert(fx.CookieUtils.has('hello') == false, 'deleted cookie');
+
+            //benchmark.assert(fx.CookieUtils.setJSON('hello') == e, 'deleted cookie');
+
+            benchmark.assert( fx.CookieUtils.setJSON('my_JSON_cookie', o) == true, 'set JSON cookie', JSON.stringify(o));
+            benchmark.assert( fx.CookieUtils.getJSON('my_JSON_cookie', o), 'get JSON cookie', JSON.stringify( fx.CookieUtils.getJSON('my_JSON_cookie', o)) );
+
+            benchmark.assert( fx.CookieUtils.dump(), 'dump cookies to console');
+
+            console.log( fx.CookieUtils.dump() );
 		}
 
 		var benchmark = new Benchmark(document.getElementById('results'), 'fx.System');
