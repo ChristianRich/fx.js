@@ -23,24 +23,32 @@
 
 		function runTests(){
             benchmark.assert(fx.CookieUtils.flush() == true, 'flush cookies');
-            benchmark.assert(fx.CookieUtils.set('hello', 'world') == 'hello=world', 'set cookie');
-			benchmark.assert(fx.CookieUtils.has('hello'), 'has cookie');
-			benchmark.assert(fx.CookieUtils.get('hello') == 'world' , 'get cookie');
+            benchmark.assert(fx.CookieUtils.getSize() == 0, 'getSize()', fx.CookieUtils.getSize());
+
+            benchmark.assert(fx.CookieUtils.setItem('hello', 'world'), 'set cookie');
+			benchmark.assert(fx.CookieUtils.hasItem('hello'), 'has cookie');
+			benchmark.assert(fx.CookieUtils.getItem('hello') == 'world' , 'get cookie');
 
 			// Deleting the cookie
-			fx.CookieUtils.delete('hello');
+			fx.CookieUtils.removeItem('hello');
 
-			benchmark.assert(fx.CookieUtils.has('hello') == false, 'deleted cookie');
-
-            benchmark.assert( typeof fx.CookieUtils.setJSON('my_JSON_cookie', o) == 'string', 'set JSON cookie', JSON.stringify(o));
-            benchmark.assert( typeof fx.CookieUtils.getJSON('my_JSON_cookie') == 'object', 'get JSON cookie', JSON.stringify( fx.CookieUtils.getJSON('my_JSON_cookie')) );
-
+			benchmark.assert(fx.CookieUtils.hasItem('hello') == false, 'deleted cookie');
+            benchmark.assert( typeof fx.CookieUtils.setItemAsJSON('my_JSON_cookie', o) == 'string', 'set JSON cookie', JSON.stringify(o));
+            benchmark.assert( typeof fx.CookieUtils.getItemAsJSON('my_JSON_cookie') == 'object', 'get JSON cookie', JSON.stringify( fx.CookieUtils.getItemAsJSON('my_JSON_cookie')) );
             benchmark.assert( fx.CookieUtils.dump(), 'dump cookies to console');
 
+            fx.CookieUtils.flush();
+
+            fx.CookieUtils.setItem('test1', true);
+            fx.CookieUtils.setItem('test2', true);
+            fx.CookieUtils.setItem('test3', true);
+            fx.CookieUtils.setItem('test4', true);
+
             console.log( fx.CookieUtils.dump() );
+            benchmark.assert(fx.CookieUtils.getSize() == 4, 'getSize()','Set 4 cookies and read the size');
 		}
 
-		var benchmark = new Benchmark(document.getElementById('results'), 'fx.System');
+		var benchmark = new Benchmark(document.getElementById('results'), 'fx.CookieUtils');
 		runTests();
 	</script>
 </body>

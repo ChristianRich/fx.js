@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../dist/fx.min.js"></script>
+    <script type="text/javascript" src="../src/utils/LocalStorageUtils.js"></script>
+	<script type="text/javascript" src="js/Benchmark.js"></script>
+</head> 
+<body>
+
+	<div id="results"></div>
+
+	<script>
+
+        var o = {};
+        o.map = {};
+        o.map.lat = -33.888411125717724;
+        o.map.lng = 151.22803487841793;
+        o.map.zoom = 13;
+
+		function runTests(){
+            benchmark.assert(fx.LocalStorageUtils.supports(), 'supportes HTML5 local storage');
+
+            if(!fx.LocalStorageUtils.supports()){
+                return false;
+            }
+
+            fx.LocalStorageUtils.flush();
+            benchmark.assert( fx.LocalStorageUtils.getSize() === 0, 'flush()', 'Clear all local storage items');
+
+            benchmark.assert( typeof fx.LocalStorageUtils.setItem('hello', 55) == 'string', 'setItem', 55);
+            benchmark.assert( fx.LocalStorageUtils.getItem('hello') == 55, 'getItem', fx.LocalStorageUtils.getItem('hello'));
+            benchmark.assert( fx.LocalStorageUtils.removeItem('hello') == true, 'removeItem');
+            benchmark.assert( typeof fx.LocalStorageUtils.setItemAsJSON('myJsonObj', o) == 'string', 'setItemAsJSON', JSON.stringify(o));
+            benchmark.assert( typeof fx.LocalStorageUtils.getItemAsJSON('myJsonObj') == 'object', 'getItemAsJSON', JSON.stringify(fx.LocalStorageUtils.getItemAsJSON('myJsonObj')));
+            benchmark.assert( fx.LocalStorageUtils.removeItem('myJsonObj') == true, 'removeItem', 'Perform remove cmd');
+            benchmark.assert( fx.LocalStorageUtils.hasItem('myJsonObj') == false, 'removeItem', 'Check if removed item exists');
+
+            fx.LocalStorageUtils.flush();
+
+            // set 4 items
+            fx.LocalStorageUtils.setItem('test1', 'test');
+            fx.LocalStorageUtils.setItem('test2', 'test');
+            fx.LocalStorageUtils.setItem('test3', 'test');
+            fx.LocalStorageUtils.setItem('test4', 'test');
+
+            console.log( fx.LocalStorageUtils.dump() );
+
+            benchmark.assert( fx.LocalStorageUtils.getSize() === 4, 'getSize', 'Setting 4 items. Check if size equals 4');
+		}
+
+		var benchmark = new Benchmark(document.getElementById('results'), 'fx.LocalStorageUtils');
+        runTests();
+
+
+	</script>
+</body>
+</html>

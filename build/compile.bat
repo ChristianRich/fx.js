@@ -30,6 +30,7 @@ java -jar compiler.jar ^
 --js ../src/utils/Scale.js ^
 --js ../src/utils/DelayCall.js ^
 --js ../src/utils/Keycode.js ^
+--js ../src/utils/LocalStorageUtils.js ^
 --js ../src/utils/Mouse.js ^
 --js ../src/utils/Object.js ^
 --js ../src/utils/QueryString.js ^
