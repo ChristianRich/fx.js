@@ -30,14 +30,15 @@
 
             fx.LocalStorageUtils.flush();
             benchmark.assert( fx.LocalStorageUtils.getSize() === 0, 'flush()', 'Clear all local storage items');
+            benchmark.assert( typeof fx.LocalStorageUtils.setItem('settings', {hello : 'world'}) == 'string', 'setItem', JSON.stringify({hello : 'world'}));
+            benchmark.assert( fx.LocalStorageUtils.getItem('settings') != null, 'getItem', JSON.stringify(fx.LocalStorageUtils.getItem('settings')));
 
-            benchmark.assert( typeof fx.LocalStorageUtils.setItem('hello', 55) == 'string', 'setItem', 55);
-            benchmark.assert( fx.LocalStorageUtils.getItem('hello') == 55, 'getItem', fx.LocalStorageUtils.getItem('hello'));
-            benchmark.assert( fx.LocalStorageUtils.removeItem('hello') == true, 'removeItem');
-            benchmark.assert( typeof fx.LocalStorageUtils.setItemAsJSON('myJsonObj', o) == 'string', 'setItemAsJSON', JSON.stringify(o));
-            benchmark.assert( typeof fx.LocalStorageUtils.getItemAsJSON('myJsonObj') == 'object', 'getItemAsJSON', JSON.stringify(fx.LocalStorageUtils.getItemAsJSON('myJsonObj')));
-            benchmark.assert( fx.LocalStorageUtils.removeItem('myJsonObj') == true, 'removeItem', 'Perform remove cmd');
-            benchmark.assert( fx.LocalStorageUtils.hasItem('myJsonObj') == false, 'removeItem', 'Check if removed item exists');
+            console.log( fx.LocalStorageUtils.dump() );
+
+            benchmark.assert( fx.LocalStorageUtils.removeItem('settings') == true, 'removeItem');
+
+
+            benchmark.assert( fx.LocalStorageUtils.hasItem('settings') == false, 'removeItem', 'Check if removed item exists');
 
             fx.LocalStorageUtils.flush();
 
@@ -47,15 +48,11 @@
             fx.LocalStorageUtils.setItem('test3', 'test');
             fx.LocalStorageUtils.setItem('test4', 'test');
 
-            console.log( fx.LocalStorageUtils.dump() );
-
             benchmark.assert( fx.LocalStorageUtils.getSize() === 4, 'getSize', 'Setting 4 items. Check if size equals 4');
 		}
 
 		var benchmark = new Benchmark(document.getElementById('results'), 'fx.LocalStorageUtils');
         runTests();
-
-
 	</script>
 </body>
 </html>

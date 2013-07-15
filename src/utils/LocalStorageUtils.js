@@ -4,20 +4,23 @@
 fx.LocalStorageUtils = {
 
     supports : function(){
-        try {
-            return 'localStorage' in window && window['localStorage'] !== null;
-        } catch (e) {
-            return false;
-        }
+        return 'localStorage' in window && window['localStorage'] !== null;
     },
 
     getItem : function(key){
-        return localStorage.getItem(key);
+        var res = localStorage.getItem(key);
+
+        if(res){
+            return JSON.parse(res);
+        }
+
+        return null;
     },
 
-    setItem : function(key, value){
-        localStorage.setItem(key, value);
-        return key;
+    setItem : function(key, data){
+        var json = JSON.stringify(data);
+        localStorage.setItem(key, json);
+        return json;
     },
 
     removeItem : function(key){
@@ -31,37 +34,7 @@ fx.LocalStorageUtils = {
     },
 
     hasItem : function(key){
-        return !!this.getItem(key);
-    },
-
-    getItemAsJSON : function(key){
-        var res = this.getItem(key);
-
-        if(!res){
-            return null;
-        }
-
-        try{
-            return JSON.parse(res);
-        } catch(e){
-            throw new Error('fx.LocalStorageUtils.getItemAsJSON(): parse error');
-        }
-
-    },
-
-    setItemAsJSON : function(key, valueAsObject){
-
-        if(Object.prototype.toString.call(valueAsObject) !== '[object Object]'){
-            throw new Error('fx.LocalStorageUtils.setItemAsJSON(): [object Object] expected.');
-        }
-
-        try{
-            var value = JSON.stringify(valueAsObject);
-        } catch(e){
-            throw new Error('fx.LocalStorageUtils.setItemAsJSON(): JSON parse error.');
-        }
-
-        return this.setItem(key, value);
+        return !!localStorage.getItem(key);
     },
 
     flush : function(){
@@ -94,9 +67,5 @@ fx.LocalStorageUtils = {
         }
 
         return len;
-    },
-
-    toString : function(){
-        return 'fx.LocalStorageUtils';
     }
 };

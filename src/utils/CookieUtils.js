@@ -2,14 +2,15 @@ fx.CookieUtils = {
 
     /**
      * @param key
-     * @param value
+     * @param data
      * @param days
      * @returns {string}
      */
-    setItem : function(key, value, days) {
+    setItem : function(key, data, days) {
         var date,
             expires,
-            expireDays = parseInt(days) || 365;
+            expireDays = parseInt(days) || 365,
+            value = JSON.stringify(data || {});
 
         if(expireDays) {
             date = new Date();
@@ -19,24 +20,20 @@ fx.CookieUtils = {
             expires = '';
         }
 
-        return document.cookie = key + '=' + value + expires + '; path=/';
+        return document.cookie = (key + '=' + value + expires + '; path=/');
     },
 
     /**
-     * @param key
+     * @param key {String}
      * @returns {*}
      */
 	getItem : function(key){
-
-        if(typeof key !== 'string'){
-            throw new Error('Invalid argument passed to fx.CookieUtils.getItem(). String expected.');
-        }
 
         var regExp = new RegExp(key + '=(.*?)(;|$)'),
             query = document.cookie.match(regExp);
 
 		if(query){
-			return query[1];
+			return JSON.parse(query[1]);
 		}
 
 		return null;
@@ -62,47 +59,6 @@ fx.CookieUtils = {
      */
     hasItem : function(key){
         return !!this.getItem(key);
-    },
-
-    /**
-     * Parses the result as JSON before it is returned. If the cookie does not exist null is returned
-     * @param key
-     * @returns {Object}
-     */
-    getItemAsJSON : function(key){
-
-        var cookie = this.getItem(key);
-
-        if(!cookie){
-            return null;
-        }
-
-        try{
-            return JSON.parse(cookie);
-        } catch(e){
-            throw new Error('fx.CookieUtils.getJSON(): parse error');
-        }
-    },
-
-    /**
-     * Sets a cookie as JSON
-     * @param key
-     * @param valueAsObject
-     * @returns {string}
-     */
-    setItemAsJSON : function(key, valueAsObject){
-
-        if(Object.prototype.toString.call(valueAsObject) !== '[object Object]'){
-            throw new Error('fx.CookieUtils.setItemAsJSON(): [object Object] expected.');
-        }
-
-        try{
-            var value = JSON.stringify(valueAsObject);
-        } catch(e){
-            throw new Error('fx.CookieUtils.setItemAsJSON(): JSON parse error.');
-        }
-
-        return this.setItem(key, value);
     },
 
 	/**
@@ -138,11 +94,12 @@ fx.CookieUtils = {
 
 		for(var i = 0; i < cookies.length; i++) {
 			var cookie = cookies[i],
-				prop = cookie.split('=')[0],
+				prop = cookie.split('=')[0].replace(/^\s*/, '').replace(/\s*$/, ''),
 				val = cookie.split('=')[1];
 
-			res += '\n[' + i.toString() + '] ' + prop + ' = ' + val;
+			res += '\n[' + i + '] ' + prop + ' = ' + val;
 		}
+
 
 		return res;
 	},
@@ -154,17 +111,11 @@ fx.CookieUtils = {
             return 0;
         }
 
-        var len = 0;
-
-        for(var i = 0; i < cookies.length; i++) {
+        for(var i = 0, len = 0; i < cookies.length; i++) {
            len++;
         }
 
         return len;
-    },
-
-    toString : function(){
-        return 'fx.CookieUtils';
     }
 };
 

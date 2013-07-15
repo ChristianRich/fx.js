@@ -25,27 +25,26 @@
             benchmark.assert(fx.CookieUtils.flush() == true, 'flush cookies');
             benchmark.assert(fx.CookieUtils.getSize() == 0, 'getSize()', fx.CookieUtils.getSize());
 
-            benchmark.assert(fx.CookieUtils.setItem('hello', 'world'), 'set cookie');
-			benchmark.assert(fx.CookieUtils.hasItem('hello'), 'has cookie');
-			benchmark.assert(fx.CookieUtils.getItem('hello') == 'world' , 'get cookie');
+            benchmark.assert(fx.CookieUtils.setItem('setttings', {hello : 'world'}), 'set cookie');
+			benchmark.assert(fx.CookieUtils.hasItem('setttings'), 'has cookie');
+			//benchmark.assert(fx.CookieUtils.getItem('hello') == 'world' , 'get cookie');
 
 			// Deleting the cookie
-			fx.CookieUtils.removeItem('hello');
+			fx.CookieUtils.removeItem('setttings');
 
-			benchmark.assert(fx.CookieUtils.hasItem('hello') == false, 'deleted cookie');
-            benchmark.assert( typeof fx.CookieUtils.setItemAsJSON('my_JSON_cookie', o) == 'string', 'set JSON cookie', JSON.stringify(o));
-            benchmark.assert( typeof fx.CookieUtils.getItemAsJSON('my_JSON_cookie') == 'object', 'get JSON cookie', JSON.stringify( fx.CookieUtils.getItemAsJSON('my_JSON_cookie')) );
+			benchmark.assert(fx.CookieUtils.hasItem('setttings') == false, 'deleted cookie');
+
             benchmark.assert( fx.CookieUtils.dump(), 'dump cookies to console');
 
             fx.CookieUtils.flush();
 
-            fx.CookieUtils.setItem('test1', true);
-            fx.CookieUtils.setItem('test2', true);
-            fx.CookieUtils.setItem('test3', true);
-            fx.CookieUtils.setItem('test4', true);
+            fx.CookieUtils.setItem('a', {hello : 'world'});
+            fx.CookieUtils.setItem('b', {gday : 'mate'});
+            fx.CookieUtils.setItem('c', {hej : 'med dig'});
+
+            benchmark.assert(fx.CookieUtils.getSize() === 3, 'getSize()','Set 4 cookies and read the size');
 
             console.log( fx.CookieUtils.dump() );
-            benchmark.assert(fx.CookieUtils.getSize() == 4, 'getSize()','Set 4 cookies and read the size');
 		}
 
 		var benchmark = new Benchmark(document.getElementById('results'), 'fx.CookieUtils');
