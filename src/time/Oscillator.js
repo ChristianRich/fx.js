@@ -4,7 +4,6 @@
 * This is also sometimes referred to as a numeric stepper only the Oscillator calculates it's own step and supports reverse
 * Useful for animation and games
 *
-* Can be combined with easing functions (like Robert Penner's)
 */
 
 /**
@@ -18,7 +17,6 @@ fx.Oscillator = function(start, end, step, reverse){
 	this.end = end || 1;
 	this.step = step || 0.1;
 	this.reverse = reverse;
-	this.easing = easing;
 	this.value = start;
 
 	if(this.reverse === undefined){
@@ -47,6 +45,11 @@ fx.Oscillator.prototype = {
 			this.value = this.start;
 		}
 	},
+
+    step : function(val){
+
+
+    },
 
 	/**
 	* Returns true if the next step does not result in overflow.
