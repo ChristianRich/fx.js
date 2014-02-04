@@ -1,12 +1,30 @@
 /**
- * HTML5 local storage wrapper
+ * HTML5 local web storage wrapper.
+ * Stores simple key / value pairs as JSON Strings.
+ *
+ * Consider below example:
+ *
+ * var userData = {score : 19800, numLives: 3};
+ * fx.LocalStorageUtils.setItem('settings', userData);
+ *
+ * Retrieve the value:
+ * fx.LocalStorageUtils.getItem('settings'); // {score : 19800, numLives: 3}
  */
 fx.LocalStorageUtils = {
 
+    /**
+     * Check support for LocalStorage and JSON
+     * @returns {boolean}
+     */
     supports : function(){
-        return 'localStorage' in window && window['localStorage'] !== null;
+        return JSON && typeof JSON.parse === 'function' && 'localStorage' in window && window['localStorage'] !== null;
     },
 
+    /**
+     * Retrieves and returns the stored item as an object.
+     * @param key
+     * @returns {*}
+     */
     getItem : function(key){
         var res = localStorage.getItem(key);
 
@@ -17,8 +35,14 @@ fx.LocalStorageUtils = {
         return null;
     },
 
-    setItem : function(key, data){
-        var json = JSON.stringify(data);
+    /**
+     * Stores the value as a forced JSON string
+     * @param key
+     * @param value
+     * @returns {String}
+     */
+    setItem : function(key, value){
+        var json = JSON.stringify(value);
         localStorage.setItem(key, json);
         return json;
     },
@@ -39,9 +63,12 @@ fx.LocalStorageUtils = {
 
     flush : function(){
         localStorage.clear();
-        return true;
     },
 
+    /**
+     * Returns a String representation of the current local storage object
+     * @returns {string}
+     */
     dump : function(){
 
         var len = this.getSize();
@@ -50,10 +77,14 @@ fx.LocalStorageUtils = {
             return 'Local storage is empty.';
         }
 
-        var res = len + ' keys / value pairs found in local storage:';
+        var res = len + ' key / value pair(s) found in local storage:',
+            key,
+            value;
 
-        for(var j in localStorage){
-            res += ('\n' + j + ': ' + localStorage[j]);
+        for(var j = 0; j < len; j++){
+            key = localStorage.key(j);
+            value = localStorage.getItem(key);
+            res += ('\n[' + j.toString() + '] ' + key + ': ' + value);
         }
 
         return res;

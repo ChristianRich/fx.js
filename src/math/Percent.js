@@ -70,4 +70,4 @@ fx.Percent = {
     rangeToDecimal : function(min, max, current){
         return (max - min) / 100 * current;
     }
-}
+};

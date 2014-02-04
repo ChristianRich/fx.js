@@ -1,16 +1,20 @@
+/*
+ * Utils for storing and retrieving cookies as JSON Strings.
+ */
 fx.CookieUtils = {
 
     /**
      * @param key
-     * @param data
+     * @param value
      * @param days
      * @returns {string}
      */
-    setItem : function(key, data, days) {
+    setItem : function(key, value, days) {
+
         var date,
             expires,
             expireDays = parseInt(days) || 365,
-            value = JSON.stringify(data || {});
+            valueAsJson = JSON.stringify(value || {});
 
         if(expireDays) {
             date = new Date();
@@ -20,7 +24,7 @@ fx.CookieUtils = {
             expires = '';
         }
 
-        return document.cookie = (key + '=' + value + expires + '; path=/');
+        return document.cookie = (key + '=' + valueAsJson + expires + '; path=/');
     },
 
     /**

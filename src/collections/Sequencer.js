@@ -10,6 +10,8 @@
  * var s = new Sequence(100);
  * s.shuffle();
  *
+ * Creates a sequence of unique random numbers from 0 - 100.
+ *
  */
 fx.Sequencer = function(size, start){
 
