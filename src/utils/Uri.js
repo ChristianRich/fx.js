@@ -27,7 +27,7 @@ fx.Uri = {
 
     /**
     * Removes the file extension part of a filename (if present)
-    * Works for both urls and filenames (like 'www.mydomain.com/index.html' or just 'index.html')
+    * Works for both urls and file names (like 'www.mydomain.com/index.html' or just 'index.html')
     * @param  {string} s
     * @return {string}
     */
@@ -201,4 +201,4 @@ fx.Uri = {
 
         return uri;
     }
-}
+};

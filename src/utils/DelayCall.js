@@ -32,13 +32,17 @@ fx.DelayCall = function(callback, time, context){
 
 	var callback = callback,
 		time = time,
-		context = context || window;
+		context = context || window,
+		hasFired = false;
 
 	var onTimer = function(){
+		
 		if(callback){
 			callback.call(context);
 			callback = null;
 		}
+		
+		hasFired = true;
 	}
 
 	var id = setTimeout(onTimer, time);
@@ -48,7 +52,8 @@ fx.DelayCall = function(callback, time, context){
 	* @return {void}
 	*/
 	this.cancel = function(){
-		if(!id){
+		
+		if(!id || hasFired){
 			return;
 		}
 

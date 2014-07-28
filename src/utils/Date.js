@@ -22,7 +22,7 @@ fx.Date = {
 	 * @return {boolean}
 	 */
 	isBefore : function(date1, date2){
-		return !!(this.daysBetween(date1, date2) < 0);
+		return (this.daysBetween(date1, date2) < 0);
 	},
 
 	/**
@@ -32,7 +32,7 @@ fx.Date = {
 	 * @return {boolean}
 	 */
 	isAfter : function(date1, date2){
-		return !!(this.daysBetween(date1, date2) > 0);
+		return (this.daysBetween(date1, date2) > 0);
 	},
 
 	/**

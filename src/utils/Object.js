@@ -62,26 +62,28 @@ fx.Object = {
         @Example:
         
         var o = {x: 7, y: 10, b : 500};
-        var map = CS.ObjectUtils.toHashMap(o);
+        var map = fx.Object.toHashMap(o);
         console.log(map['x']); // 7
         console.log(map['y']); // 10
         console.log(map['b']); // 500
     */
-    toHashMap : function(o) { /*Array*/
+    toHashMap : function(o) {
         var map = [];
         for (var key in o) map[key] = o[key];
         return map;
     },
 
     /**
-        Maps all key / value pairs into an Array, where keys accupy even index numbers and values occupy odd index numbers.
+        Maps all key / value pairs from an Object into an Array.
+        In the result Array keys occupy even index numbers and values occupy odd index numbers.
         @Example:
         
         var o = {x: 7, y: 10, b : 500};
-        var a = CS.ObjectUtils.toArray(o); // [x, 7, y, 10, b, 500]
+        var a = fx.Object.toArray(o); // [x, 7, y, 10, b, 500]
     */
     toArray : function(o) {
         var res = [];
+
         for (var key in o){
             res.push(key);
             res.push(o[key]);    
@@ -94,7 +96,7 @@ fx.Object = {
         @Example:
         
         var o = {x: 7, y: 10, b : 500};
-        var a = CS.ObjectUtils.toMultidimensionalArray(o); // [[x, 7], [y, 10], [b, 500]]
+        var a = fx.Object.toMultidimensionalArray(o); // [[x, 7], [y, 10], [b, 500]]
     */
     toMultidimensionalArray : function(o) { /*Array*/
         var res = [];
