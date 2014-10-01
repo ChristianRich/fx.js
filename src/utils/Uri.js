@@ -40,7 +40,7 @@ fx.Uri = {
     * @return {string}
     */
     stripExtension : function(s){ 
-        var parsed,
+        var parsedUrl,
             fn;
 
         if(this.isUrl(s)){
@@ -57,6 +57,19 @@ fx.Uri = {
         }
 
         return fn.split('.')[0];
+    },
+
+    /**
+     * Removes any type of protocol like http, https, ftp etc
+     * @param str
+     * @returns {*}
+     */
+    stripProtocol : function(str){
+        return str.replace(/.*?:\/\//g, '');
+    },
+
+    stripWWW : function(str){
+        return str.replace('www.', '');
     },
 
     /**
@@ -121,7 +134,7 @@ fx.Uri = {
                 strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
                 loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
             }
-        }
+        };
             
         var o = options,
             m  = o.parser[o.strictMode ? 'strict' : 'loose'].exec(str),
@@ -139,6 +152,8 @@ fx.Uri = {
                 uri[o.q.name][$1] = $2;
             } 
         });
+
+        uri.domain = this.stripWWW(uri.host);
 
         return uri;    
     },
